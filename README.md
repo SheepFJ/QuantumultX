@@ -9,12 +9,12 @@
 # 功能实现-APP :space_invader:
 
 <details>
-   <summary>:zap:CADmini看图</summary>
+   <summary>:zap: CADmini看图</summary>  
    
-    导入重写解锁: ```https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/cadmini/cadmini.js```   
    
-    ![CADmini看图](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/db/4b/88/db4b886d-4361-b317-b99a-920c4a6fcf8e/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/350x350.png)   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/cadmini/cadmini.js)  
    
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/db/4b/88/db4b886d-4361-b317-b99a-920c4a6fcf8e/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/350x350.png?)
 </details>
 
 # 功能实现-API :space_invader:
