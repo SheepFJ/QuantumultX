@@ -6,8 +6,13 @@
 
 <img src="https://count.getloli.com/get/@SheepFJ">
 
+# 功能实现-APP :space_invader:
 
-# 功能实现 :space_invader:
+<details>
+   <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
+</details>
+
+# 功能实现-API :space_invader:
 
 <details>
    <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
@@ -18,6 +23,26 @@
 <details>
   <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
 </details>
+
+
+<details>
+  <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
+</details>
+
+# 功能实现-Task :space_invader:
+
+<details>
+   <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
+</details>
+
+
+
+<details>
+  <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
+</details>
+
+
+
 
 
 # 免责声明 :book:
