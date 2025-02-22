@@ -10,6 +10,8 @@
 
 <details>
    <summary>:zap:CADmini看图</summary>
+
+### 使用方法   
    
     导入重写解锁: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/cadmini/cadmini.js)  
    
