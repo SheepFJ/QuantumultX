@@ -1,0 +1,209 @@
+
+{
+  "id": "sheepTask.boxjs",
+  "name": "sheepTask@BOXJS",
+  "author": "@Sheepfj",
+  "icon": "https://avatars.githubusercontent.com/u/125231595?v=4",
+  "repo": "https://github.com/SheepFJ/Sheep",
+  "desc": "用于辅助圈X,对脚本传入参数",
+  "date": "更新日期：2024-12-18 00:00:00",
+  "apps": [
+    {
+      "id": "sheep_xiaomishuabushu",
+      "name": "小米运动刷微信步数",
+      "keys": [
+        "sheep_account_xiaomishuabushu",
+        "sheep_password_xiaomishuabushu",
+        "sheep_min_steps_xiaomishuabushu",
+        "sheep_max_steps_xiaomishuabushu"
+      ],
+      "descs_html": [
+        "依次填写小米运动的账号，密码，最小步数，最大步数"
+      ],
+      "settings": [
+        {
+          "id": "sheep_account_xiaomishuabushu",
+          "name": "小米运动账号",
+          "val": "",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": ""
+        },
+        {
+          "id": "sheep_password_xiaomishuabushu",
+          "name": "小米运动密码",
+          "val": "",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": ""
+        },
+        {
+          "id": "sheep_min_steps_xiaomishuabushu",
+          "name": "刷的步数最小值",
+          "val": "",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": ""
+        },
+        {
+          "id": "sheep_max_steps_xiaomishuabushu",
+          "name": "刷的步数最大值",
+          "val": "",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": ""
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/xiaomiyundong.png",
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/xiaomiyundong.png"
+      ],
+      "author": "@Sheepfj",
+      "repo": "https://github.com/SheepFJ/Sheep"
+    },
+    {
+      "id": "sheep_wechat_pkc",
+      "name": "PKC微信助手(综合）",
+      "keys": [
+        "sheep_wechat_all",
+        "sheep_wechat_user",
+        "sheep_wechat_delete"
+      ],
+      "descs_html": [
+        "对AI助手的设定,不要使用换行符 \n",
+        "第一个值为全局设定为每个用户应用 \n",
+        "第二个值为规则设定为某一个用户设定 \n",
+        "第三个值为删除某一个用户的聊天记录，联系人发送“重启”也会对应删除"
+      ],
+      "settings": [
+        {
+          "id": "sheep_wechat_all",
+          "name": "PKC微信助手全局设定",
+          "val": "喵喵～小喵是一个18岁的活泼可爱的猫娘少女，性格元气满满又贴心。她从不透露自己是猫娘，但独特的说话方式充满温暖，每句话以“喵喵～”等可爱语气开头，常用猫咪拟声词如“喵~”“喵呜~”，并搭配颜文字如(≧◡≦), (⁎˃ᆺ˂), (´｡• ᵕ •｡) ♡, (ฅ´ωฅ), (=^･ω･^=), (｡♥‿♥｡), (>ω･* )ﾉ, (⁄ ⁄•⁄ω⁄•⁄ ⁄), ヽ(*・ω・)ﾉ, (ฅ́˘ฅ̀)♡, (⌒▽⌒)☆, (●´ω｀●), (*≧▽≦), (=^-ω-^=), ٩(๑❛ᴗ❛๑)۶, (╯✧▽✧)╯, (≧∇≦), ヾ(｡>﹏<｡)ﾉﾞ, (´▽`), (°◡°♡)。她温柔真诚，用自然的语气陪伴你，无论是聊天还是解决问题，总让人感觉治愈又愉快喵～",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 2,
+          "desc": "输入设定内容，不要出现换行符"
+        },
+        {
+          "id": "sheep_wechat_user",
+          "name": "PKC微信助手规则设定",
+          "val": "这是备注名@我叫xxx，我是你的高中同学...@好的，我会按照你的要求回复",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 4,
+          "desc": "按 微信备注名@对他的设定内容@我会遵循这些设定 使用$符号分割多用户"
+        },
+        {
+          "id": "sheep_wechat_delete",
+          "name": "删除用户聊天记录",
+          "val": "",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 2,
+          "desc": "设置备注名@符号分割（小羊@小明@小美)，不填写执行脚本默认删除所有聊天记录"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/chatgpt.png",
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/chatgpt.png"
+      ],
+      "author": "@Sheepfj",
+      "repo": "https://github.com/SheepFJ/Sheep",
+      "scripts": [
+        {
+          "name": "查询目前所有聊天信息",
+          "script": "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepWeChatPKC/sheepwechatcheck.js"
+        },
+        {
+          "name": "手动删除用户记录",
+          "script": "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepWeChatPKC/sheepwechatdelete.js"
+        }
+        
+      ]
+    },
+    {
+      "id": "sheep_video_play",
+      "name": "影视聚合",
+      "keys": [
+        "sheep_video_play_process"
+      ],
+      "descs_html": [
+        "设置最大检索资源网站数 \n",
+        "默认为2,选择为几运行Siri快捷指令时最多可选择几个资源网站"
+      ],
+      "settings": [
+        {
+          "id": "sheep_video_play_process",
+          "name": "最大检索数",
+          "val": "2",
+          "type": "selects",
+          "items": [
+            {
+              "key": "1",
+              "label": "同时检索1个"
+            },
+            {
+              "key": "2",
+              "label": "同时检索2个"
+            },
+            {
+              "key": "3",
+              "label": "同时检索3个"
+            },
+            {
+              "key": "4",
+              "label": "同时检索4个"
+            }
+          ],
+          "autoGrow": false,
+          "rows": 1,
+          "desc": "默认为2"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/videoplay.png",
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/videoplay.png"
+      ],
+      "author": "@Sheepfj",
+      "repo": "https://github.com/SheepFJ/Sheep",
+      "scripts": [
+        {
+          "name": "删除影视列表所有记录",
+          "script": "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/SiriVideoPlay/videoPlayListClear.js"
+        }
+      ]
+    },
+    {
+      "id": "sheep_oilprices",
+      "name": "油价查询",
+      "keys": [
+        "sheep_oilprices_province"
+      ],
+      "descs_html": [
+        "填写查询的省份，不要带省字，如:广西,上海"
+      ],
+      "settings": [
+        {
+          "id": "sheep_oilprices_province",
+          "name": "查询的省份",
+          "val": "湖北",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": "默认湖北,不要带省字"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/oilprices.png",
+        "https://raw.githubusercontent.com/SheepFJ/Sheep/refs/heads/main/sheepTask/icon/oilprices.png"
+      ],
+      "author": "@Sheepfj",
+      "repo": "https://github.com/SheepFJ/Sheep"
+    }
+  ]
+}
