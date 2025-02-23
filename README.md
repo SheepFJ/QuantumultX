@@ -107,8 +107,8 @@
 <details>
   <summary>:zap:API使用前必看</summary>  
    
-  **只适配了圈X，其他不适用**  
-  **可以在导入重写后safari访问API路径使用**
+  **只适配了圈X，其他不适用**   
+  **可以在导入重写后safari访问API路径使用**  
   **也可以配合微信PKC插件的API功能使用：**    
   1 导入对应API的重写  
   2 关键词自动回复设置    
@@ -125,6 +125,25 @@
   [详细配置教程--TG](https://t.me/sheep_007xiaoyang/17)
    
 </details>
+
+<details>
+  <summary>:zap:简讯API</summary>  
+
+  导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/jianxunpkc.js)  
+
+  关键词自动回复-->  
+  - 匹配模式选开头  
+  - 关键字(必填)填 简讯   
+  - 自动回复文本(必填)中填
+  自定义接口Api-->
+  - 自定义文本api
+  - API6中填写 `https://movies.disney.com/sheep/jianxun/txt/`
+   
+</details>
+
+
+
+
 
 # 功能脚本-Task :space_invader:
 
