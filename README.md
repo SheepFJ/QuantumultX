@@ -109,11 +109,20 @@
    
   **只适配了圈X，其他不适用**  
   **可以在导入重写后safari访问API路径使用**
-  **也可以配合微信PKC插件的API功能使用：**  
-  1 导入对应API的重写
-  2 关键词自动回复设置  
-  3 自定义接口Api（文本、图片）中进行设置
+  **也可以配合微信PKC插件的API功能使用：**    
+  1 导入对应API的重写  
+  2 关键词自动回复设置    
+  3 自定义接口Api（文本、图片）中进行设置  
 
+   
+</details>
+
+<details>
+  <summary>:zap:PKC|微信智能助手</summary>  
+
+  导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/sheepwechatpkc.js)  
+
+  [详细配置教程--TG](https://t.me/sheep_007xiaoyang/17)
    
 </details>
 
