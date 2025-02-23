@@ -53,6 +53,55 @@
    ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/7b/61/5a/7b615a0a-6fd8-8360-9e09-0afa03925326/AppIcon-0-1x_U007emarketing-0-7-0-0-85-220-0.png/246x0w.webp)
 </details>
 
+
+<details>
+   <summary>:zap: 简讯</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/jianxun/guide.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5a/10/6e/5a106e61-890b-2ee7-fc27-ceb73deca01b/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 图片转文字</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/tupianzhuanwenzi/tupianzhuanwenzi.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/84/8e/ea/848eeae1-a05b-d8ec-181a-aafb8df93ce3/AppIcon-1x_U007emarketing-0-7-0-0-sRGB-85-220-0.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 遥望</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/yaowang/yaowang.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/47/9f/e9/479fe9ab-94f5-a286-0a71-96538adc1e4d/AppIcon-0-0-1x_U007emarketing-0-10-0-0-85-220.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 知了，RSS聚合阅读</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/zhiliaotuisong/guide.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/58/15/e5/5815e558-8cc3-1175-2969-c374e69c527f/AppIcon-0-1x_U007emarketing-0-5-0-85-220-0.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 之了专升本</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/zhiliaozhuanshengben/zhiliaozhuanshengben.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/13/30/6d/13306d4a-04a2-4cec-6ab0-6818d46b5da9/AppIcon-0-0-1x_U007emarketing-0-7-0-0-sRGB-85-220.png/350x350.png?)
+</details>
+
+
+
+
 # 功能脚本-API :space_invader:
 
 <details>
