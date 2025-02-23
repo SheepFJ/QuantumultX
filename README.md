@@ -131,13 +131,14 @@
 
   导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/jianxunpkc.js)  
 
-  关键词自动回复-->  
-  - 匹配模式选开头  
-  - 关键字(必填)填 简讯   
-  - 自动回复文本(必填)中填
-  自定义接口Api-->
-  - 自定义文本api
-  - API6中填写 `https://movies.disney.com/sheep/jianxun/txt/`
+  关键词自动回复-->    
+  - 匹配模式选开头    
+  - 关键字(必填)填 简讯     
+  - 自动回复文本(必填)中填  
+
+自定义接口Api-->  
+  - 自定义文本api  
+  - API6中填写 `https://movies.disney.com/sheep/jianxun/txt/`  
    
 </details>
 
