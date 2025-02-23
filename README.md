@@ -17,6 +17,42 @@
    ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/db/4b/88/db4b886d-4361-b317-b99a-920c4a6fcf8e/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/350x350.png?)
 </details>
 
+<details>
+   <summary>:zap: 车工计算器</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/chegongjisuan/chegongjisuan.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/c6/62/c4/c662c43e-7357-348a-8399-9777c80b0a05/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 蛋啵</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/danbo/danbo.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/32/18/22/32182230-9868-347b-6d6b-4cf6702153a3/AppIcon-0-0-1x_U007emarketing-0-4-0-85-220.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 复盘盒子</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/fupanhezi/fupanhezi.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7a/a5/2c/7aa52c4b-7832-bc4f-0c86-d143c3f17598/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/350x350.png?)
+</details>
+
+<details>
+   <summary>:zap: 滚动截屏</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/gundongjieping/gdjp.js)  
+   
+   ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/7b/61/5a/7b615a0a-6fd8-8360-9e09-0afa03925326/AppIcon-0-1x_U007emarketing-0-7-0-0-85-220-0.png/246x0w.webp)
+</details>
+
 # 功能脚本-API :space_invader:
 
 <details>
