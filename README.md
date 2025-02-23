@@ -105,7 +105,16 @@
 # 功能脚本-API :space_invader:
 
 <details>
-  <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
+  <summary>:zap:API使用前必看</summary>  
+   
+  **只适配了圈X，其他不适用**  
+  **可以在导入重写后safari访问API路径使用**
+  **也可以配合微信PKC插件的API功能使用：**  
+  1 导入对应API的重写
+  2 关键词自动回复设置  
+  3 自定义接口Api（文本、图片）中进行设置
+
+   
 </details>
 
 # 功能脚本-Task :space_invader:
