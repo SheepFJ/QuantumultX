@@ -20,32 +20,15 @@
 # 功能脚本-API :space_invader:
 
 <details>
-   <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
-</details>
-
-
-
-<details>
-  <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
-</details>
-
-
-<details>
   <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
 </details>
 
 # 功能脚本-Task :space_invader:
 
-<details>
-   <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
-</details>
-
-
 
 <details>
   <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
 </details>
-
 
 
 
