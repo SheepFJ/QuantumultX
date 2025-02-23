@@ -105,7 +105,7 @@
 # 功能脚本-API :space_invader:
 
 <details>
-  <summary>:zap:API使用前必看</summary>  
+  <summary>:star:API使用前必看:star:</summary>  
    
   **只适配了圈X，其他不适用**   
   **可以在导入重写后safari访问API路径使用**  
