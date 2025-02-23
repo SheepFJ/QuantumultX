@@ -134,13 +134,47 @@
   关键词自动回复-->    
   - 匹配模式选开头    
   - 关键字(必填)填 简讯     
-  - 自动回复文本(必填)中填  
+  - 自动回复文本(必填)中填 `/pkc text 1` 
 
 自定义接口Api-->  
   - 自定义文本api  
-  - API6中填写 `https://movies.disney.com/sheep/jianxun/txt/`  
+  - API1中填写 `https://movies.disney.com/sheep/jianxun/txt/`  
    
 </details>
+
+
+<details>
+  <summary>:zap:每日新闻--文本API</summary>  
+
+  导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/newstextpkc.js)  
+
+  关键词自动回复-->    
+  - 匹配模式选开头    
+  - 关键字(必填)填 今日新闻     
+  - 自动回复文本(必填)中填 `/pkc text 2`  
+
+自定义接口Api-->  
+  - 自定义文本api  
+  - API2中填写 `https://movies.disney.com/sheep/news/text/`  
+   
+</details>
+
+<details>
+  <summary>:zap:每日新闻--图片API</summary>  
+
+  导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/newsimagepkc.js)  
+
+  关键词自动回复-->    
+  - 匹配模式选开头    
+  - 关键字(必填)填 今日新闻     
+  - 自动回复文本(必填)中填 `/pkc image 1`  
+
+自定义接口Api-->  
+  - 自定义图片api  
+  - API1中填写 `https://movies.disney.com/sheep/news/image/`  
+   
+</details>
+
 
 
 
