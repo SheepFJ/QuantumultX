@@ -6,7 +6,7 @@
 
 <img src="https://count.getloli.com/get/@SheepFJ">
 
-# 功能实现-APP :space_invader:
+# 功能脚本-APP :space_invader:
 
 <details>
    <summary>:zap: CADmini看图</summary>  
@@ -17,7 +17,7 @@
    ![app图标](https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/db/4b/88/db4b886d-4361-b317-b99a-920c4a6fcf8e/AppIcon-1x_U007emarketing-0-7-0-0-85-220-0.png/350x350.png?)
 </details>
 
-# 功能实现-API :space_invader:
+# 功能脚本-API :space_invader:
 
 <details>
    <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
@@ -34,7 +34,7 @@
   <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
 </details>
 
-# 功能实现-Task :space_invader:
+# 功能脚本-Task :space_invader:
 
 <details>
    <summary>:zap:圈x & PKC微信自动回复(支持上下文)</summary>
