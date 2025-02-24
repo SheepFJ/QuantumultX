@@ -10,7 +10,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/movies\.disney\.com\/sheep\/API\/oilPrices\/[^\/]+\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/newstextpkc.js
+^https:\/\/movies\.disney\.com\/sheep\/API\/oilPrices\/[^\/]+\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/oilprices.js
 [mitm]
 hostname = movies.disney.com
 
