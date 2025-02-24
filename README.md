@@ -170,7 +170,7 @@
   - 自动回复文本(必填)中填 `/pkc image 1`  
 
 自定义接口Api-->  
-  - 自定义图片api  
+  - 自定义文本api  
   - API1中填写 `https://movies.disney.com/sheep/news/image/`  
    
 </details>
