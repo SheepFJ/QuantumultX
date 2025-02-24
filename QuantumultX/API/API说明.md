@@ -4,4 +4,5 @@
 - jianxunpkc.js--简讯  
 - newsimagepkc--每日新闻(图片)  
 - newstextpkc--每日新闻(文字)
+- oilprices.js--今日油价
 
