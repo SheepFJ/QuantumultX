@@ -176,6 +176,22 @@
 </details>
 
 
+<details>
+  <summary>:zap:今日油价API</summary>  
+
+  导入重写： [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/oilprices.js)  
+
+  关键词自动回复-->    
+  - 匹配模式选开头    
+  - 关键字(必填)填 油价=     
+  - 自动回复文本(必填)中填 `/pkc text 3 [反选]`  
+
+自定义接口Api-->  
+  - 自定义图片api  
+  - API3中填写 `https://movies.disney.com/sheep/API/oilPrices/[参数1]/`
+   
+</details>
+
 
 
 
