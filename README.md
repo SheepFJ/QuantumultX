@@ -217,7 +217,24 @@
 
 
 <details>
-  <summary>:zap:圈x & 网页影视聚合(在线观看)</summary>
+  <summary>:star:Task使用前必看:star:</summary> 
+   
+   **task任务很多得你手动传参，所以第一步请安装Boxjs并且导入订阅**
+
+   [安装及导入教程](https://t.me/sheep_007xiaoyang/13)
+
+   **圈X-Task-导入**
+   1. 复制Task脚本 [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/introduceTask.json)
+   2. 点击圈x主页下方第五个按钮进入
+   3. 然后上方第一个按钮进入右上角点➕
+   4. 粘贴复制的链接，添加对应任务使用
+
+   **Cron表达式说明**
+   1. 分钟 小时 日期 月份 星期几
+   2. 35   7    *    *    1-7    表示每周1-7的7点35执行 
+
+
+   
 </details>
 
 
