@@ -170,7 +170,7 @@
   - 自动回复文本(必填)中填 `/pkc image 1`  
 
 自定义接口Api-->  
-  - 自定义文本api  
+  - 自定义图片api  
   - API1中填写 `https://movies.disney.com/sheep/news/image/`  
    
 </details>
@@ -187,7 +187,7 @@
   - 自动回复文本(必填)中填 `/pkc text 3 [反选]`  
 
 自定义接口Api-->  
-  - 自定义图片api  
+  - 自定义文本api  
   - API3中填写 `https://movies.disney.com/sheep/API/oilPrices/[参数1]/`
    
 </details>
@@ -204,7 +204,7 @@
   - 自动回复文本(必填)中填 `/pkc text 3 [反选]`  
 
 自定义接口Api-->  
-  - 自定义图片api  
+  - 自定义文本api  
   - API3中填写 `https://movies.disney.com/sheep/constellation/[参数1]/`
    
 </details>
