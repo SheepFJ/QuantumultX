@@ -10,7 +10,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/movies\.disney\.com\/sheep\/jianxun\/txt\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/jianxunpkc.js
+^https:\/\/movies\.disney\.com\/sheep\/constellation\/([^\/]+)\/([^\/]+)\/ url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/constellation.js
 [mitm]
 hostname = movies.disney.com
 
