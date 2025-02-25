@@ -206,10 +206,11 @@
       "repo": "https://github.com/SheepFJ/QuantumultX"
     },
     {
-      "id": "sheep_oilprices",
+      "id": "sheep_constellation",
       "name": "星座运势",
       "keys": [
-        "sheep_oilprices_province"
+        "sheep_constellation_data",
+        "sheep_constellation_time"
       ],
       "descs_html": [
         "填写星座名称~记得带座 \n",
