@@ -5,7 +5,8 @@
         "00 21 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/xiaomishuabushu.js,tag=微信刷步数,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/xiaomiyundong.png,enabled=true",
         "08 12 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/jianxun.js,tag=一条简短的讯息,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/jianxun.png,enabled=true",
         "09 12 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/newsTask.js,tag=每日新闻60s,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/news.png,enabled=true",
-        "10 12 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/oilPricesTask.js,tag=油价查询,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/oilprices.png,enabled=true"
+        "10 12 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/oilPricesTask.js,tag=油价查询,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/oilprices.png,enabled=true",
+        "11 12 * * * https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/taskjs/constellationtask.js,tag=星座运势,img-url=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/icontask108/constellation.png,enabled=true"
         
 
     ]
