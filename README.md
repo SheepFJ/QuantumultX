@@ -104,8 +104,8 @@
    
    
 导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/tupianyasuo/tupianyasuo.js)  
+
    
-   ![app图标](https://apps.apple.com/cn/app/%E5%9B%BE%E7%89%87%E5%8E%8B%E7%BC%A9-%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F%E8%B0%83%E6%95%B4%E4%BF%AE%E6%94%B9%E5%9B%BE%E7%89%87%E5%B0%BA%E5%AF%B8%E8%BD%AF%E4%BB%B6/id1588204395)
 </details>
 
 
