@@ -5,4 +5,5 @@
 - newsimagepkc--每日新闻(图片)  
 - newstextpkc--每日新闻(文字)
 - oilprices.js--今日油价
+- constellation--星座运势
 
