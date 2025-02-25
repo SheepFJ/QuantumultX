@@ -10,7 +10,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/yy\.fuwu100\.top/api/user/my url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/tupianyasuo/tupianyasuo.js
+^http:\/\/yy\.fuwu100\.top/api/user/my url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/tupianyasuo/tupianyasuo.js
 hostname = yy.fuwu100.top
 
 *************************************/
