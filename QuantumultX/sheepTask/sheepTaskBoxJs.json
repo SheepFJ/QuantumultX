@@ -204,6 +204,69 @@
       ],
       "author": "@Sheepfj",
       "repo": "https://github.com/SheepFJ/QuantumultX"
+    },
+    {
+      "id": "sheep_oilprices",
+      "name": "星座运势",
+      "keys": [
+        "sheep_oilprices_province"
+      ],
+      "descs_html": [
+        "填写星座名称~记得带座 \n",
+        "选择想要通知的日期"
+      ],
+      "settings": [
+        {
+          "id": "sheep_constellation_data",
+          "name": "选择星座",
+          "val": "白羊座",
+          "type": "textarea",
+          "autoGrow": false,
+          "rows": 1,
+          "desc": "填写星座名称"
+        },
+        {
+          "id": "sheep_constellation_time",
+          "name": "选择日期",
+          "val": "",
+          "type": "selects",
+          "items": [
+                    {
+                      "key": "jinri",
+                      "label": "今日"
+                    },
+                    {
+                      "key": "mingri",
+                      "label": "明日"
+                    },
+                    {
+                      "key": "benzhou",
+                      "label": "本周"
+                    },
+                    {
+                      "key": "benyue",
+                      "label": "本月"
+                    },
+                    {
+                      "key": "nianyun",
+                      "label": "年运"
+                    },
+                    {
+                      "key": "nianlove",
+                      "label": "爱情-年"
+                    }
+                  ],
+          "autoGrow": false,
+          "rows": 1,
+          "desc": "选择日期"
+        }
+      ],
+      "icons": [
+        "https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/iconboxjs200/constellation.png",
+        "https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/icon/iconboxjs200/constellation.png"
+      ],
+      "author": "@Sheepfj",
+      "repo": "https://github.com/SheepFJ/QuantumultX"
     }
   ]
 }
