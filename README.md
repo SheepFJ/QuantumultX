@@ -108,6 +108,24 @@
    
 </details>
 
+<details>
+   <summary>:zap: 星座游戏大全</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/xingzuoyouxidaquan/xingzuoyouxidaquan.js)  
+
+   
+</details>
+
+<details>
+   <summary>:zap: 疯狂百科问答</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/xingzuoyouxidaquan/xingzuoyouxidaquan.js)  
+
+   
+</details>
+
 
 
 
