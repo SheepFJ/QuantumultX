@@ -18,9 +18,11 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 hostname = chatme-backend-d5f358e587a4.herokuapp.com,securetoken.googleapis.com,genie-production-yfvxbm4e6q-uc.a.run.app
 
 *************************************/
-const saveResult = $prefs.valueForKey("sheep_siri_aireply"); 
+let saveResult = $prefs.valueForKey("sheep_wechat_content") || "";
+saveResult = "€€€" + saveResult + "€€€";
+
 $done({
-status: "HTTP/1.1 200 OK",
-headers: { "Content-Type": "text/plain; charset=utf-8" },
-body:saveResult
-})
+    status: "HTTP/1.1 200 OK",
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    body: saveResult
+});
