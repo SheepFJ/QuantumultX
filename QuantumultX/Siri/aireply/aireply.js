@@ -1,3 +1,3 @@
 const saveResult = $prefs.valueForKey("sheep_siri_reply");
 console.log(saveResult)   
-$done(saveResult)
+$done({body:saveResult})
