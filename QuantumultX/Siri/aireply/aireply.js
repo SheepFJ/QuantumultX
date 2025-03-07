@@ -13,12 +13,24 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 
 [rewrite_local]
 ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js
- ^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js  
+^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js  
 [mitm]
 hostname = chatme-backend-d5f358e587a4.herokuapp.com,securetoken.googleapis.com,genie-production-yfvxbm4e6q-uc.a.run.app
 
+================ Loon ==================
+
+[Script]
+http-response ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=true,tag=Siri打印消息
+http-response ^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js,requires-body=true,tag=获取AI消息 
+
 *************************************/
-let saveResult = $prefs.valueForKey("sheep_siri_aireply") || "";
+
+const isLoon = typeof $persistentStore !== "undefined";
+const isQuanX = typeof $prefs !== "undefined";
+
+if (isLoon) {
+    
+    let saveResult = $persistentStore.read("sheep_wechat_content") || "";
 saveResult = "€€€" + saveResult + "€€€";
 
 $done({
@@ -26,3 +38,26 @@ $done({
     headers: { "Content-Type": "text/plain; charset=utf-8" },
     body: saveResult
 });
+    
+    
+    
+    
+} else if (isQuanX) {
+    let saveResult = $prefs.valueForKey("sheep_siri_aireply") || "";
+saveResult = "€€€" + saveResult + "€€€";
+
+$done({
+    status: "HTTP/1.1 200 OK",
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    body: saveResult
+});
+} else {
+    console.log("当前环境未知");
+}
+
+$done();
+
+
+
+
+
