@@ -6,4 +6,5 @@
 - newstextpkc--每日新闻(文字)
 - oilprices.js--今日油价
 - constellation--星座运势
+- bilibilivideo--b站视频解析
 
