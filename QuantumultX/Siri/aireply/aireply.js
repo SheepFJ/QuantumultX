@@ -21,8 +21,8 @@ hostname = chatme-backend-d5f358e587a4.herokuapp.com,movies.disney.com,m.speedte
 ================ Loon ==================
 
 [Script]
-http-response ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息--0
-http-response ^https:\/\/m\.speedtest\.cn\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息--1
+http-response ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息0
+http-response ^https:\/\/m\.speedtest\.cn\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息1
 http-response ^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js,requires-body=true,tag=获取AI消息 
 
 *************************************/
