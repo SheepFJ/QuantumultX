@@ -8,19 +8,21 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 脚本说明：利用Siri与圈x重写实现AI问答
 使用方法：
 1.导入脚本重写：https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js
-2.导入快捷指令执行：https://www.icloud.com/shortcuts/b8995ccca91b46dfbab0c49115066496
+2.导入快捷指令执行：https://www.icloud.com/shortcuts/e725a1ffcdeb4d65a59eec02e67d33f4
 ============ Quantumult X ============
 
 [rewrite_local]
 ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js
+^https:\/\/m\.speedtest\.cn\/sheep\/siri\/aireply\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js
 ^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js  
 [mitm]
-hostname = chatme-backend-d5f358e587a4.herokuapp.com,movies.disney.com
+hostname = chatme-backend-d5f358e587a4.herokuapp.com,movies.disney.com,m.speedtest.cn
 
 ================ Loon ==================
 
 [Script]
-http-response ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息
+http-response ^https:\/\/movies\.disney\.com\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息--0
+http-response ^https:\/\/m\.speedtest\.cn\/sheep\/siri\/aireply\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/aireply.js,requires-body=false,tag=Siri打印消息--1
 http-response ^https:\/\/chatme-backend-d5f358e587a4\.herokuapp\.com\/chatme\/api\/v1\/ask\/text script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/Siri/aireply/huoqu.js,requires-body=true,tag=获取AI消息 
 
 *************************************/
