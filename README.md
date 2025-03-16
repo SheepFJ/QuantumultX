@@ -126,6 +126,15 @@
    
 </details>
 
+<details>
+   <summary>:zap: 转转大师</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/zhuanzhuandashi/zhuanzhuandashi.js)  
+
+   
+</details>
+
 
 
 
