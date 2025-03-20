@@ -15,7 +15,7 @@ hostname = api.sheep.com
 
 ================ Loon ==================
 [Script]
-http-response ^https:\/\/api\.sheep\.com\/sheep\/poetry\/answer\/([^\/]+) script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/poetryanawer/poetryanawer.js,requires-body=false,tag=诗歌问答
+http-response ^https:\/\/api\.sheep\.com\/sheep\/poetry\/answer\/([^\/]+)\/? script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/poetryanawer/poetryanawer.js,requires-body=false,tag=诗歌问答
 
 
 *************************************/
