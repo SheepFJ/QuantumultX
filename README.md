@@ -135,6 +135,18 @@
    
 </details>
 
+<details>
+   <summary>:zap: 快搜搜题</summary>  
+   
+   
+导入重写即可: [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/kuaisousouti/kuaisousouti.js)  
+
+   
+</details>
+
+
+
+
 
 
 
