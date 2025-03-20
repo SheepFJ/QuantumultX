@@ -7,4 +7,6 @@
 - oilprices.js--今日油价
 - constellation--星座运势
 - bilibilivideo--b站视频解析
+- videoanalysis--全网视频解析
+- poetryanawer--诗词知识问答
 
