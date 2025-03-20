@@ -8,8 +8,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 脚本说明：用于PKC插件的视频与文本接口
 ============ Quantumult X ============
 
-[rewrite_local]
- url script-response-body 
+
 [mitm]
 hostname = api.sheep.com
 
