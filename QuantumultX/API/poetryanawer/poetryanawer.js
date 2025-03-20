@@ -9,7 +9,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/api\.sheep\.com\/sheep\/poetry\/answer\/([^\/]+) url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/poetryanawer/poetryanawer.js
+^https:\/\/api\.sheep\.com\/sheep\/poetry\/answer\/([^\/]+)\/? url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/poetryanawer/poetryanawer.js
 [mitm]
 hostname = api.sheep.com
 
