@@ -1,18 +1,21 @@
 /*************************************
 项目名称：快搜搜题
-更新日期：2025-03-20
+更新日期：2025-03-08
 脚本作者：@Sheepfj
+使用声明：⚠️仅供参考，🈲转载与售卖！
 TG频道：https://t.me/sheep_007xiaoyang
 GitHub：https://github.com/SheepFJ/QuantumultX
-使用声明：⚠️仅供参考，🈲转载与售卖！
-脚本说明: 解锁会员
-
+脚本说明：用于PKC插件的视频与文本接口
 ============ Quantumult X ============
 
-[rewrite_local]
-^https://kspay\.iksdt\.com/pay\.php url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/kuaisousouti/kuaisousouti.js  
+
 [mitm]
 hostname = kspay.iksdt.com
+
+================ Loon ==================
+[Script]
+http-response ^https://kspay\.iksdt\.com/pay\.php script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/kuaisousouti/kuaisousouti_loon.js,requires-body=true,tag=快搜搜题
+
 
 *************************************/
 
