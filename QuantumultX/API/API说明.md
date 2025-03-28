@@ -9,4 +9,5 @@
 - bilibilivideo--b站视频解析
 - videoanalysis--全网视频解析
 - poetryanawer--诗词知识问答
+- weather--天气接口
 
