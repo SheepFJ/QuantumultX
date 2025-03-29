@@ -269,7 +269,7 @@
    
    **task任务很多得你手动传参，所以第一步请安装Boxjs并且导入订阅**
 
-   [安装及导入教程](https://t.me/sheep_007xiaoyang/13)
+   [安装与导入教程](https://t.me/sheep_007xiaoyang/13)
 
    **圈X->Task-导入**
    1. 复制Task脚本 [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/introduceTask.json)
