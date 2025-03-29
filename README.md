@@ -271,7 +271,7 @@
 
    [安装及导入教程](https://t.me/sheep_007xiaoyang/13)
 
-   **圈X-Task-导入**
+   **圈X->Task-导入**
    1. 复制Task脚本 [长按复制](https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/sheepTask/introduceTask.json)
    2. 点击圈x主页下方第五个按钮进入
    3. 然后上方第一个按钮进入右上角点➕
