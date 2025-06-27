@@ -1,0 +1,402 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+body {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    position: relative;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-image: url('https://img-new-cdn.whalean.com/wallpaper-material/2cldMlKoKhAP_1713334763158.jpg?imageMogr2/auto-orient/fomat/webp/thumbnail/1280%3E');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#main-container {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: calc(100vh - 50px);
+    padding-bottom: 50px;
+}
+
+/* 底部导航栏 */
+#bottom-nav {
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8%;
+    background: rgba(0, 0, 0, 1);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 10000;
+
+}
+
+.nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    width: 33.33%;
+    height: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-button i {
+    font-size: 30px;
+    margin-bottom: 4px;
+}
+
+.nav-button span {
+    font-size: 14px;
+}
+
+.nav-active {
+    color: #f04949;
+}
+
+/* 内容区域样式 */
+.content-section {
+    display: none;
+    width: 100%;
+    padding: 100px;
+    padding-bottom: 200px;
+    padding: 0;
+    color: #fff;
+}
+
+.content-section.active {
+    display: block;
+}
+
+
+.public-popup-active {
+    z-index: 997;
+    height: 80%;
+    width: 92%;
+    margin-left: 4%;
+    background-color: #f8f8f8;
+    position: fixed;
+    top: 7%;
+    display: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* 灰色遮罩层 */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 997;
+    display: none;
+}
+
+.popup-content {
+    padding: 20px;
+    margin-bottom: 45px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.popup-content h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.popup-section {
+    margin-bottom: 15px;
+}
+
+.popup-section span {
+    display: block;
+    color: #555;
+    font-weight: 500;
+}
+
+.popup-section .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.popup-section .input-group input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.popup-section .input-group button {
+    padding: 10px 15px;
+    background: linear-gradient(125deg, #4a90e2, #63b3ed);
+    color: white;
+    border: none;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.popup-section button:hover {
+    background: linear-gradient(125deg, #3a80d2, #539fe3);
+    transform: scale(0.98);
+}
+
+.popup-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+}
+
+.popup-section li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.popup-section li a {
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.popup-section textarea {
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 100px;
+    font-size: 14px;
+    font-family: inherit;
+}
+
+/* 开关按钮样式 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    margin-left: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #4a90e2;
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+.popup-section .toggle-container {
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.close-popup,
+.confirm-popup {
+    position: absolute;
+    bottom: 15px;
+    padding: 10px 25px;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.close-popup {
+    left: 35%;
+    transform: translateX(-50%);
+    background: linear-gradient(125deg, #ff5e62, #ff9966);
+}
+
+.confirm-popup {
+    left: 65%;
+    transform: translateX(-50%);
+    background: linear-gradient(125deg, #4a90e2, #63b3ed);
+}
+
+.close-popup:hover,
+.confirm-popup:hover {
+    transform: translateX(-50%) scale(0.95);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.public-popup-content {
+    position: relative;
+    height: 100%;
+    padding: 20px;
+    padding-bottom: 70px;
+    overflow-y: auto;
+}
+
+.popup-container {
+    margin-bottom: 20px;
+}
+
+.app-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.app-version {
+    font-size: 16px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.update-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.update-item {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.disclaimer {
+    font-style: italic;
+    margin-top: 20px;
+    display: block;
+}
+
+.contact-link {
+    display: block;
+    margin-top: 10px;
+}
+
+.api-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.wechat-api {
+    width: 30%;
+    margin-bottom: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa, #e9ecef);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wechat-api:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.wechat-api h2 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.section-title {
+    margin-left: 10px;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    font-size: 30px;
+    color: #333;
+    border-left: 4px solid #ff9966;
+}
