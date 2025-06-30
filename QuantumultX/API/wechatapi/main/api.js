@@ -160,9 +160,8 @@ function parseUrl(url) {
         const result = [firstParam[0], action, params];
         return result;
     }
-
-
 }
+
 
 //文本类前后缀
 function handleTextPrefixSuffix(textdata) {
@@ -180,6 +179,7 @@ function handleTextPrefixSuffix(textdata) {
         return textdata;
     }
 }
+
 
 // 默认用户信息
 const defaultWeChatAPIuserinfo = {
@@ -208,6 +208,14 @@ const defaultWeChatAPIuserinfo = {
             "name": "更多",
             "grade": 1,
             "enable": true,
+        },
+        {
+            "id": "image360",
+            "name": "360壁纸",
+            "grade": 2,
+            "enable": true,
+            "prompt_word": ["360壁纸", "360"],
+            "help": "使用‘/bot 360壁纸’获取一张随机壁纸",
         }
     ]
 }
@@ -226,7 +234,10 @@ function initializeData(key, defaultValue) {
         // 如果数据不存在，使用默认值并存储
         data = defaultValue;
         storage.set(key, data);
+        console.log(`初始化${key}数据成功`);
     } else {
+        console.log(`读取${key}数据成功`);
+
         // 检查API数组是否需要更新
         if (key === "WeChatAPIuserinfo" && data.api && defaultValue.api) {
             // 检查API长度是否一致
@@ -251,9 +262,9 @@ function initializeData(key, defaultValue) {
 
 // 全局数据变量
 let WeChatAPIuserinfo = {};
+
 // 初始化WeChatAPIuserinfo数据
 WeChatAPIuserinfo = initializeData("WeChatAPIuserinfo", defaultWeChatAPIuserinfo);
-
 
 const url = $request.url;
 // 解析URL参数
@@ -265,12 +276,14 @@ const routes = {
     app: {
         randomnumber: handleAppRandomnumber,
         help: handleAppHelp,
+        image360: handleGet360image,
 
     },
     web: {
         AddkeyWord: handleAddkeyWord,
         MainPage: handleMainPage,
         GetUserinfo: handleGetUserinfo,
+
 
     }
 };
@@ -288,8 +301,10 @@ function routeDispatcher(params) {
     // 如果是app类别，在WeChatAPIuserinfo[api]数组中查找匹配的prompt_word
     console.log(`${params[1]}`);
     if (category === 'app') {
+
         // 在WeChatAPIuserinfo.api数组中查找匹配的prompt_word
         const userInput = params[1]; // 不转为小写，保持原始大小写
+
         // 遍历所有API项
         for (const apiItem of WeChatAPIuserinfo.api) {
             // 检查该API项是否有prompt_word数组
@@ -316,8 +331,6 @@ function routeDispatcher(params) {
     return routes[category][action](params);
 }
 
-
-
 /** 
  * 判断是否启用
  * @param {string} id - 要判断的api id
@@ -325,6 +338,7 @@ function routeDispatcher(params) {
 */
 function isEnable(id) {
     if (WeChatAPIuserinfo.api.find(item => item.id === id).enable) {
+        console.log(`${id}已启用`);
     } else {
         return $done(responseStatusWeChatAPP("命令不存在，使用“/bot 帮助“查看使用方法"));
     }
@@ -350,6 +364,7 @@ function handleAppRandomnumber() {
             const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
             randomNumbers.push(randomNum);
         }
+
     } else {
         //不可重复
         // 检查可取的数量是否足够
@@ -375,17 +390,20 @@ function handleAppRandomnumber() {
     console.log(`处理后的数据:${responsedata}`);
     return $done(responseStatusWeChatAPP(responsedata));
 }
-
-
 //帮助
 function handleAppHelp() {
+    console.log(`处理app帮助`);
+    console.log(`action:${action}`);
     isEnable(action);
+
     // 获取帮助内容
     // 获取所有启用的API帮助内容
     const enabledApis = WeChatAPIuserinfo.api.filter(item => item.enable === true);
     let helpContent = "";
+
     // 添加序号表情符号
     const numberEmojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+
     // 组合所有启用的API的帮助内容
     enabledApis.forEach((item, index) => {
         if (item.help) {
@@ -408,10 +426,41 @@ function handleAppHelp() {
     return $done(responseStatusWeChatAPP(helpContent));
 }
 
+
+function handleGet360image() {
+    isEnable(action);
+    const options = {
+        url: 'https://api.tangdouz.com/a/360bza.php',
+        method: 'GET',
+        headers: {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Sec-Fetch-Mode': 'navigate',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Connection': 'keep-alive',
+            'Priority': 'u=0, i',
+            'Host': 'api.tangdouz.com',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Site': 'none',
+            'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1'
+        }
+    };
+    fetchWithCallback(options, (error, response, body) => {
+        if (error) {
+            console.log('Error:', error);
+            return $done(responseStatusWeChatAPP("获取图片失败，请稍后重试"));
+        }
+        return $done(responseStatusWeChatAPP(body));
+    });
+}
+
+
+
 //WEB端-----------
 function handleAddkeyWord() {
     // 获取请求中的数据
     const requestData = params[2];
+
     if (!requestData || !requestData.id) {
         return $done(responseStatusWEB(false, "缺少必要参数", null));
     }
@@ -441,14 +490,10 @@ function handleAddkeyWord() {
     }
     //根据id，去替换WeChatAPIuserinfo.api中的数据
     return $done(responseStatusWEB("success", "添加关键词"));
-
 }
 
 
-
-
 function handleMainPage() {
-
     const html = `<!DOCTYPE html>
     <html lang="zh-CN">
     <head>
@@ -463,13 +508,336 @@ function handleMainPage() {
         <meta name="apple-mobile-web-app-title" content="WeChatAPI">
         <title>WeChatAPI</title>
         <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4951863_9u033n9ghun.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SheepFJ/QuantumultX/QuantumultX/API/wechatapi/css/main.css">
     </head>
+    <style>
+        <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+    }
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+    body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        position: relative;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
+    #background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+        background-image: url('https://img-new-cdn.whalean.com/wallpaper-material/2cldMlKoKhAP_1713334763158.jpg?imageMogr2/auto-orient/fomat/webp/thumbnail/1280%3E');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #main-container {
+        width: 100%;
+        min-height: 100%;
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        height: calc(100vh - 50px);
+        padding-bottom: 50px;
+    }
+
+    /* 底部导航栏 */
+    #bottom-nav {
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 8%;
+        background: rgba(0, 0, 0, 1);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        z-index: 10000;
+
+    }
+
+    .nav-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        width: 33.33%;
+        height: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .nav-button i {
+        font-size: 30px;
+        margin-bottom: 4px;
+    }
+
+    .nav-button span {
+        font-size: 14px;
+    }
+
+    .nav-active {
+        color: #f04949;
+    }
+
+    /* 内容区域样式 */
+    .content-section {
+        display: none;
+        width: 100%;
+        padding: 100px;
+        padding-bottom: 200px;
+        padding: 0;
+        color: #fff;
+    }
+
+    .content-section.active {
+        display: block;
+    }
+    </style>
     <body>
+
     <!-- 背景 -->
     <div id="background"></div>
+
+
+
+    <style>
+        .public-popup-active {
+            z-index: 997;
+            height: 80%;
+            width: 92%;
+            margin-left: 4%;
+            background-color: #f8f8f8;
+            position: fixed;
+            top: 7%;
+            display: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* 灰色遮罩层 */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 997;
+            display: none;
+        }
+
+        .popup-content {
+            padding: 20px;
+            margin-bottom: 45px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .popup-content h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .popup-section {
+            margin-bottom: 15px;
+        }
+
+        .popup-section span {
+            display: block;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .popup-section .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .popup-section .input-group input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        .popup-section .input-group button {
+            padding: 10px 15px;
+            background: linear-gradient(125deg, #4a90e2, #63b3ed);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .popup-section button:hover {
+            background: linear-gradient(125deg, #3a80d2, #539fe3);
+            transform: scale(0.98);
+        }
+
+        .popup-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+        }
+
+        .popup-section li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            margin-bottom: 5px;
+        }
+
+        .popup-section li a {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .popup-section textarea {
+            width: 100%;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 100px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        /* 开关按钮样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+            margin-left: 10px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4a90e2;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .popup-section .toggle-container {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .close-popup, .confirm-popup {
+            position: absolute;
+            bottom: 15px;
+            padding: 10px 25px;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .close-popup {
+            left: 35%;
+            transform: translateX(-50%);
+            background: linear-gradient(125deg, #ff5e62, #ff9966);
+        }
+
+        .confirm-popup {
+            left: 65%;
+            transform: translateX(-50%);
+            background: linear-gradient(125deg, #4a90e2, #63b3ed);
+        }
+
+        .close-popup:hover, .confirm-popup:hover {
+            transform: translateX(-50%) scale(0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .public-popup-content {
+            position: relative;
+            height: 100%;
+            padding: 20px;
+            padding-bottom: 70px;
+            overflow-y: auto;
+        }
+
+        .popup-container {
+            margin-bottom: 20px;
+        }
+    </style>
+
     <!-- 灰色遮罩层 -->
     <div id="popup-overlay" class="popup-overlay"></div>
+
     <!-- 公共弹出框 -->
     <div id="public-popup" class="public-popup-active">
         <div class="public-popup-content">
@@ -533,6 +901,37 @@ function handleMainPage() {
                     </div>
                 </div>
 
+                <style>
+                .app-name {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    display: block;
+                }
+                .app-version {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    display: block;
+                }
+                .update-title {
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    display: block;
+                }
+                .update-item {
+                    display: block;
+                    margin-bottom: 5px;
+                }
+                .disclaimer {
+                    font-style: italic;
+                    margin-top: 20px;
+                    display: block;
+                }
+                .contact-link {
+                    display: block;
+                    margin-top: 10px;
+                }
+                </style>
                 <div id="popup-6" class="popup-content">
                     <h2>更多</h2>
                     <div id="about">
@@ -555,10 +954,328 @@ function handleMainPage() {
                 </div>
             </div>
         </div>
+
         <!-- 按钮区域 -->
         <button id="close-popup" class="close-popup">关闭</button>
         <button id="confirm-popup" class="confirm-popup">确认</button>
     </div>
+
+    <script>
+        let userInfoArray = [];
+        fetch('https://api.sheep.com/sheep/wechat/api/?web=GetUserinfo')
+                .then(response => response.json())
+                .then(data => {
+                   userInfoArray = data.data.array;    
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+
+        let currentPopup = null;
+
+        function showPopup(text) {
+        // 隐藏所有内容区域
+        document.querySelectorAll('.popup-content').forEach(item => {
+            item.style.display = 'none';
+        });
+        // 显示弹出框与遮罩层
+        document.getElementById('public-popup').style.display = 'block';
+        document.getElementById('popup-overlay').style.display = 'block';
+
+        // 显示对应内容区域
+        const contentMap = {
+            'randomnumber': ['popup-1', 'popup-2'],
+            'help': ['popup-1','popup-5'],
+            'about': ['popup-6'],
+            'image360': ['popup-1'],
+        };
+
+        //根据userInfoArray的id，获取对应的数据然后渲染弹出页面
+        const userInfo = userInfoArray.api.find(item => item.id === text);
+        console.log(userInfo);
+
+        if (contentMap[text]) {
+            contentMap[text].forEach(item => {
+
+                // 如果是popup-1，更新标题、关键词列表和开关状态
+                if (item === 'popup-1' && userInfo) {
+                    // 更新标题
+                    const titleElement = document.getElementById('popup-1-title');
+                    if (titleElement) {
+                        titleElement.textContent = \`\${userInfo.name}\`;
+                    }
+
+                    // 更新关键词列表
+                    const keywordsList = document.getElementById('keywords-list');
+                    if (keywordsList && userInfo.prompt_word) {
+                        // 清空现有列表
+                        keywordsList.innerHTML = '';
+
+                        // 添加关键词
+                        userInfo.prompt_word.forEach(keyword => {
+                            const li = document.createElement('li');
+                            li.innerHTML = \`\${keyword} <a class="delete-keyword">删除</a>\`;
+                            keywordsList.appendChild(li);
+
+                            // 为新添加的删除按钮添加事件监听
+                            li.querySelector('.delete-keyword').addEventListener('click', function () {
+                                keywordsList.removeChild(li);
+                            });
+                        });
+                    }
+
+                    // 更新开关状态
+                    const toggleSwitch = document.getElementById("popup-1-toggle");
+                    if (toggleSwitch) {
+                        toggleSwitch.checked = userInfo.enable === true;
+                    }
+
+                    // 更新帮助文本
+                    const helpTextarea = document.getElementById('help-content');
+                    if (helpTextarea && userInfo.help) {
+                        helpTextarea.value = userInfo.help;
+                    }
+                }
+
+
+                if (item === 'popup-2' && userInfo) {
+                    // 更新前缀文本
+                    const prefixTextarea = document.getElementById('prefix-content');
+                    if (prefixTextarea && userInfo.prefix_text) {
+                        prefixTextarea.value = userInfo.prefix_text;
+                    }
+                    
+                    // 更新后缀文本
+                    const suffixTextarea = document.getElementById('suffix-content');
+                    if (suffixTextarea && userInfo.suffix_text) {
+                        suffixTextarea.value = userInfo.suffix_text;
+                    }
+                }
+
+                if (item === 'popup-5' && userInfo) {
+                    // 更新帮助文本
+                    const helpTextarea = document.getElementById('help-content-all');
+                    if (helpTextarea && userInfo.popup_help) {
+                        helpTextarea.value = userInfo.popup_help.join('\\n');
+                    }
+                }
+
+            
+            document.getElementById(item).style.display = 'block';
+            });
+
+            currentPopup = text;
+        }
+    }
+
+
+    // 刷新-重新打开https://api.sheep.com/sheep/wechat/api/?web=MainPage
+    document.getElementById('refresh-help-content').addEventListener('click', function () {
+        window.location.href = 'https://api.sheep.com/sheep/wechat/api/?web=MainPage';
+    });
+
+// 添加关键词
+document.getElementById('add-keyword-btn').addEventListener('click', function () {
+    const input = document.getElementById('keyword-input');
+    const keyword = input.value.trim();
+
+    if (keyword) {
+        const list = document.getElementById('keywords-list');
+        const li = document.createElement('li');
+        li.innerHTML = \`\${ keyword } <a class="delete-keyword">删除</a>\`;
+                list.appendChild(li);
+                input.value = '';
+                
+                // 为新添加的删除按钮添加事件监听
+                li.querySelector('.delete-keyword').addEventListener('click', function() {
+                    list.removeChild(li);
+                });
+            }
+        });
+
+        // 为已有的删除按钮添加事件监听
+        document.querySelectorAll('.delete-keyword').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const li = this.parentElement;
+                li.parentElement.removeChild(li);
+            });
+        });
+
+        // 关闭弹出框
+        const closePopup = document.querySelector('.close-popup');
+        closePopup.addEventListener('click', () => {
+            document.getElementById('public-popup').style.display = 'none';
+            document.getElementById('popup-overlay').style.display = 'none';
+        });
+
+        // 确认按钮
+        const confirmAI = document.querySelector('.confirm-popup');
+        confirmAI.addEventListener('click', () => {
+
+            // 获取当前显示的弹窗
+            const visiblePopups = document.querySelectorAll('.popup-content');
+            let currentPopupId = '';
+            let data = {};
+            
+            // 遍历所有弹窗，找到当前显示的弹窗
+            visiblePopups.forEach(popup => {
+                if (popup.style.display === 'block') {
+                    currentPopupId = popup.id;
+                    
+                    // 根据弹窗类型组装数据
+                    if (currentPopupId === 'popup-1') {
+                        // 获取标题（名称）
+                        const name = document.getElementById('popup-1-title').innerHTML;
+                        
+                        // 获取ID（从标题中提取或使用预设值）
+                        const id = currentPopup; // 使用当前弹窗的ID
+                        
+                        // 获取是否启用
+                        const enable = document.getElementById('popup-1-toggle').checked;
+                        
+                        // 获取帮助文本
+                        const helpContent = document.getElementById('help-content').value;
+
+                        
+                        // 获取关键词列表
+                        const keywordsList = document.getElementById('keywords-list');
+                        const keywords = [];
+                        keywordsList.querySelectorAll('li').forEach(li => {
+                            // 提取关键词文本（去除"删除"按钮文本）
+                            const keywordText = li.textContent.replace('删除', '').trim();
+                            keywords.push(keywordText);
+                        });
+                        
+                        // 组装数据
+                        data = {
+                            "id": id,
+                            "name": name,
+                            "grade": 1,
+                            "enable": enable,
+                            "prompt_word": keywords,
+                            "help": helpContent
+                        };
+                    } 
+                        
+                    if (currentPopupId === 'popup-2') {
+                        // 获取前缀和后缀内容
+                        const prefixContent = document.getElementById('prefix-content').value;
+                        const suffixContent = document.getElementById('suffix-content').value;
+                        data = {
+                            ...data,
+                            "prefix_text": prefixContent,
+                            "suffix_text": suffixContent
+                        };
+                    }
+
+                    if (currentPopupId === 'popup-5') {
+                        // 获取帮助内容
+                        const helpContent = document.getElementById('help-content').value;
+                        data = {
+                            ...data,
+                            "help": helpContent
+                        };
+                    }
+                    
+                }
+            });
+            
+            console.log("保存的数据:", data);
+            
+
+            // 更新userInfoArray中的数据
+            if (userInfoArray && userInfoArray.api && data && data.id) {
+                // 查找匹配的API项
+                const apiIndex = userInfoArray.api.findIndex(item => item.id === data.id);
+                
+                // 如果找到匹配项，则替换数据
+                if (apiIndex !== -1) {
+                    userInfoArray.api[apiIndex] = data;
+                    console.log(\`已更新ID为\${ data.id }的API数据\`);
+                } else {
+                    console.log(\`未找到ID为\${ data.id } 的API数据，无法更新\`);
+                }
+                
+                //发送请求，更新userInfoArray
+                // 构建URL参数
+                let urlParams = \`web=AddkeyWord\`;
+                
+                // 遍历data对象的每个属性
+                for (const [key, value] of Object.entries(data)) {
+                    if (Array.isArray(value)) {
+                        // 如果值是数组，用连字符拼接
+                        urlParams += \`&\${key}=\${value.join('-')}\`;
+                    } else {
+                        // 如果值是普通类型
+                        urlParams += \`&\${key}=\${value}\`;
+                    }
+                }
+                
+                fetch(\`https://api.sheep.com/sheep/wechat/api/?\${urlParams}\`)
+                .then(response => response.json())
+    .then(responseData => {
+        console.log(responseData.data.information);
+    })
+    .catch(error => {
+        console.error('更新数据失败:', error);
+    });
+                
+            }
+
+// 关闭弹出框
+document.getElementById('public-popup').style.display = 'none';
+document.getElementById('popup-overlay').style.display = 'none';
+});
+    </script >
+
+    <style>
+        .api-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        
+        .wechat-api {
+            width: 30%;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f5f7fa, #e9ecef);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .wechat-api:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .wechat-api h2 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .content-section {
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            margin-left: 10px;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            font-size: 30px;
+            color: #333;
+            border-left: 4px solid #ff9966;
+        }
+    </style>
+
 
     <div id="main-container">
         <!-- 占顶 -->
@@ -573,24 +1290,27 @@ function handleMainPage() {
                 <div id="randomnumber" class="wechat-api">
                     <h2>随机数</h2>
                 </div>
+
                 <!--帮助api-->
                 <div id="help" class="wechat-api">
                     <h2>帮助</h2>
                 </div>
+
                 <!--关于api-->
                 <div id="about" class="wechat-api">
                     <h2>更多</h2>
                 </div>
+
             </div>
         </div>
-
-
 
         <!-- 图片类 -->
         <div id="image-section" class="content-section">
             <h3 class="section-title">图片类API</h3>
             <div class="api-grid">
-                <h1>持续更新中......</h1>
+                <div id="360image" class="wechat-api">
+                    <h2>360图壁纸</h2>
+                </div>
             </div>
         </div>
 
@@ -602,9 +1322,12 @@ function handleMainPage() {
             </div>
         </div>
 
+
+
         <!-- 占底 -->
         <div style="height: 6%;"></div>
     </div>
+
         <footer>
         <div id="bottom-nav">
             <div class="nav-button nav-active" id="textBtn" onclick="showSection('text')">
@@ -619,18 +1342,64 @@ function handleMainPage() {
                 <i class="iconfont  icon-chevron-right-circle-filled"></i>
                 <span>视频</span>
             </div>
+
         </div>
     </footer>
     </body >
-    <script src="https://cdn.jsdelivr.net/gh/SheepFJ/QuantumultX/QuantumultX/API/wechatapi/js/page.js"></script>
     </html >
+    <script>
+        // 导航栏
+        let currentSection = 'text';
+        function showSection(section) {
+            // 更新当前选中的导航按钮
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('nav-active');
+            });
+        document.getElementById(section + 'Btn').classList.add('nav-active');
+
+            // 隐藏所有内容区域
+            document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+            });
+
+        // 显示选中的内容区域
+        document.getElementById(section + '-section').classList.add('active');
+
+        // 更新当前section
+        currentSection = section;
+        }
+
+        // 为所有content-section下面的wechat-api元素添加点击事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            contentSections.forEach(section => {
+                const wechatApiElements = section.querySelectorAll('.wechat-api');
+                
+                wechatApiElements.forEach(element => {
+            element.addEventListener('click', function () {
+                const id = this.getAttribute('id');
+                currentPopup = id;
+                console.log('Current popup:', currentPopup);
+                showPopup(currentPopup);
+            });
+                });
+            });
+        });
+
+
+    </script>
+
 `;
+
     return $done({
         status: "HTTP/1.1 200 OK",
         headers: { "Content-Type": "text/html" },
         body: html
     });
 }
+
+
 // 获取用户信息
 function handleGetUserinfo() {
     let userinfo = WeChatAPIuserinfo;
@@ -650,5 +1419,6 @@ function handleGetUserinfo() {
     //响应配置信息
     return $done(responseStatusWEB(true, userinfo, userinfo));
 }
+
 // 执行路由分发
 routeDispatcher(params);
