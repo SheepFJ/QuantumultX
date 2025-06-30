@@ -85,6 +85,14 @@ function responseStatusWeChatAPP(data) {
     }
 }
 
+//书写一个重定向到指定url的函数
+function redirectToUrl(url) {
+    return $done({
+        status: 302,
+        headers: { Location: url }
+    });
+}
+
 //全局记录本次请求是web还是app
 let isWeb = false;
 /**
@@ -450,7 +458,7 @@ function handleGet360image() {
             console.log('Error:', error);
             return $done(responseStatusWeChatAPP("获取图片失败，请稍后重试"));
         }
-        return $done(responseStatusWeChatAPP(body));
+        return redirectToUrl(body);
     });
 }
 
@@ -1308,7 +1316,7 @@ document.getElementById('popup-overlay').style.display = 'none';
         <div id="image-section" class="content-section">
             <h3 class="section-title">图片类API</h3>
             <div class="api-grid">
-                <div id="360image" class="wechat-api">
+                <div id="image360" class="wechat-api">
                     <h2>360图壁纸</h2>
                 </div>
             </div>
