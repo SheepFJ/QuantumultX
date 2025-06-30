@@ -85,12 +85,16 @@ function responseStatusWeChatAPP(data) {
     }
 }
 
-//书写一个重定向到指定url的函数
+//视频/图片类型API重定向到指定url的函数
 function redirectToUrl(url) {
-    return $done({
-        status: 302,
-        headers: { Location: url }
-    });
+    $done({
+        status: "HTTP/1.1 302 Found",
+        headers: {
+            "Location": url, // 重定向到图片的 URL
+            "Content-Type": "text/plain; charset=utf-8" // 可以设置为 text/plain，避免浏览器不正确处理
+        },
+        body: "Redirecting to image..." // 可选的消息，告知客户端正在重定向
+    })
 }
 
 //全局记录本次请求是web还是app
