@@ -124,9 +124,16 @@ function parseUrl(url) {
 
         // 重新获取处理后的查询部分
         const parts = decodedUrl.split('?');
-        const queryPart = parts[1];
+        let queryPart = parts[1];
 
-        // 首先按=拆分
+        // 如果包含musicplay，直接移除第二个=号
+        if (queryPart.includes('musicplay')) {
+            let firstEqualIndex = queryPart.indexOf('=');
+            let secondEqualIndex = queryPart.indexOf('=', firstEqualIndex + 1);
+            if (secondEqualIndex !== -1) {
+                queryPart = queryPart.slice(0, secondEqualIndex) + queryPart.slice(secondEqualIndex + 1);
+            }
+        }
         const equalParts = queryPart.split('=');
         // 获取=后面的部分作为data1
         const data1 = equalParts[0];
@@ -222,12 +229,34 @@ const defaultWeChatAPIuserinfo = {
             "enable": true,
         },
         {
+            "id": "reset",
+            "name": "重置",
+            "grade": 1,
+            "enable": true,
+        },
+        {
             "id": "image360",
             "name": "360壁纸",
             "grade": 2,
             "enable": true,
             "prompt_word": ["360壁纸", "360"],
             "help": "使用‘/bot 360壁纸’获取一张随机壁纸",
+        },
+        {
+            "id": "musicplay",
+            "name": "音乐播放",
+            "grade": 1,
+            "enable": true,
+            "prompt_word": ["点歌", "musicplay"],
+            "help": "使用“点歌🟰歌曲名-序号(不加默认第一首)”歌曲名称为王者英雄时序号填0触发英雄随机语音",
+        },
+        {
+            "id": "musiclist",
+            "name": "音乐列表",
+            "grade": 1,
+            "enable": true,
+            "prompt_word": ["音乐", "yl"],
+            "help": "使用‘/bot 音乐:歌曲名/作者’查看音乐列表",
         }
     ]
 }
@@ -289,12 +318,15 @@ const routes = {
         randomnumber: handleAppRandomnumber,
         help: handleAppHelp,
         image360: handleGet360image,
+        musicplay: handleMusicplay,
+        musiclist: handleMusiclist,
 
     },
     web: {
         AddkeyWord: handleAddkeyWord,
         MainPage: handleMainPage,
         GetUserinfo: handleGetUserinfo,
+        reset: handleReset,
 
 
     }
@@ -358,6 +390,143 @@ function isEnable(id) {
 
 
 //APP端-----------
+
+//点歌
+function handleMusicplay() {
+    isEnable(action);
+    const songName = params[2];
+    const songlist = params[3] || 1;
+    //构建响应json
+    const responseData = {
+        code: 200,
+        title: "英雄名称不对哦～",
+        singer: "瑶瑶公主",
+        cover: "https://game.gtimg.cn/images/yxzj/img201606/skin/hero-info/505/505-bigskin-1.jpg",
+        music_url: "https://game.gtimg.cn/images/yxzj/zlkdatasys/audios//music/20190403/791ce1d0c6968540c05726d6e3e159f9.mp3"
+    };
+
+
+
+    if (songlist == 0) {
+        let url = "https://api.tangdouz.com/wzyyb.php?nr=" + encodeURIComponent(songName);
+
+        const options = {
+            url: url,
+            method: 'GET',
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1',
+                'Accept': 'application/json'
+            }
+        };
+        fetchWithCallback(options, (error, response, body) => {
+            if (error) {
+                console.log('Error:', error);
+                return $done({
+                    status: "HTTP/1.1 200 OK",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(responseData)
+                });
+            }
+            try {
+                const res = JSON.parse(body);
+                // img -> cover, name -> singer, data: random content->title, url->music_url
+                if (res && res.data && Array.isArray(res.data) && res.data.length > 0) {
+                    responseData.cover = res.img || responseData.cover;
+                    responseData.singer = res.name || responseData.singer;
+                    const randomIndex = Math.floor(Math.random() * res.data.length);
+                    const randomItem = res.data[randomIndex];
+                    responseData.title = randomItem.content || responseData.title;
+                    responseData.music_url = randomItem.url || responseData.music_url;
+                }
+            } catch (e) {
+                console.log('Parse wz music api response error:', e);
+            }
+            return $done({
+                status: "HTTP/1.1 200 OK",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(responseData)
+            });
+        });
+    }
+
+
+    let url = 'https://api.52vmy.cn/api/music/kw?word=' + encodeURIComponent(songName) + '&n=' + songlist;
+    console.log(`url:${url}`);
+
+
+    // 构造响应数据
+    const options = {
+        url: url,
+        method: 'GET',
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1',
+            'Accept': 'application/json'
+        }
+    };
+    fetchWithCallback(options, (error, response, body) => {
+        if (error) {
+            console.log('Error:', error);
+            return $done({
+                status: "HTTP/1.1 200 OK",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(responseData)
+            });
+        }
+
+        try {
+            const res = JSON.parse(body);
+            if (res && res.data) {
+                responseData.cover = res.data.picture || responseData.cover;
+                responseData.title = res.data.name || responseData.title;
+                responseData.singer = res.data.artist || responseData.singer;
+                responseData.music_url = res.data.url || responseData.music_url;
+            }
+        } catch (e) {
+            console.log('Parse music api response error:', e);
+        }
+        return $done({
+            status: "HTTP/1.1 200 OK",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(responseData)
+        });
+    });
+
+}
+
+//获取歌曲列表
+function handleMusiclist() {
+    isEnable(action);
+    const songName = params[2];
+    // 对 songName 进行 encodeURIComponent 编码，防止中文导致 bad url
+    const url = 'https://api.52vmy.cn/api/music/kw?word=' + encodeURIComponent(songName);
+
+    const options = {
+        url: url,
+        method: 'GET',
+        headers: {
+            // 只保留必要头部
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1',
+            'Accept': 'application/json'
+        }
+    };
+
+    fetchWithCallback(options, (error, response, body) => {
+        if (error) {
+            console.log('Error:', error);
+            return $done(responseStatusWeChatAPP("获取音乐列表失败，请稍后重试"));
+        }
+        return $done(responseStatusWeChatAPP(body));
+    });
+
+}
 
 //随机数
 function handleAppRandomnumber() {
@@ -438,7 +607,7 @@ function handleAppHelp() {
     return $done(responseStatusWeChatAPP(helpContent));
 }
 
-
+//360壁纸
 function handleGet360image() {
     isEnable(action);
     const options = {
@@ -502,6 +671,12 @@ function handleAddkeyWord() {
     }
     //根据id，去替换WeChatAPIuserinfo.api中的数据
     return $done(responseStatusWEB("success", "添加关键词"));
+}
+
+//重置
+function handleReset() {
+    storage.set("WeChatAPIuserinfo", defaultWeChatAPIuserinfo);
+    return $done(responseStatusWEB("success", "重置成功"));
 }
 
 
@@ -964,6 +1139,15 @@ function handleMainPage() {
                         <span class="contact-link" style="margin-bottom: 50px;">TG频道：<a href="https://t.me/sheep_007xiaoyang" target="_blank">Sheep资源备份分享</a></span>
                     </div>
                 </div>
+
+                <div id="popup-7" class="popup-content">
+                    <h2>重置</h2>
+                    <div class="popup-section">
+                        <span>重置所有数据</span>
+                        <button id="reset-all-data">重置</button>
+                    </div>
+                </div>
+               
             </div>
         </div>
 
@@ -985,6 +1169,20 @@ function handleMainPage() {
 
         let currentPopup = null;
 
+
+        document.getElementById('reset-all-data').addEventListener('click', function () {
+                        fetch('https://api.sheep.com/sheep/wechat/api/?web=reset')
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("重置成功");
+                                //刷新页面
+                                window.location.href = 'https://api.sheep.com/sheep/wechat/api/?web=MainPage';
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            })
+                    });
+
         function showPopup(text) {
         // 隐藏所有内容区域
         document.querySelectorAll('.popup-content').forEach(item => {
@@ -1000,6 +1198,9 @@ function handleMainPage() {
             'help': ['popup-1','popup-5'],
             'about': ['popup-6'],
             'image360': ['popup-1'],
+            'musicplay': ['popup-1'],
+            'musiclist': ['popup-1'],
+            'reset': ['popup-7'],
         };
 
         //根据userInfoArray的id，获取对应的数据然后渲染弹出页面
@@ -1306,6 +1507,23 @@ document.getElementById('popup-overlay').style.display = 'none';
                 <!--帮助api-->
                 <div id="help" class="wechat-api">
                     <h2>帮助</h2>
+                </div>
+
+                
+
+                <!--点歌api-->
+                <div id="musicplay" class="wechat-api">
+                    <h2>点歌</h2>
+                </div>
+
+                <!--音乐列表api-->
+                <div id="musiclist" class="wechat-api">
+                    <h2>音乐列表</h2>
+                </div>
+
+                <!--重置api-->
+                <div id="reset" class="wechat-api">
+                    <h2>重置</h2>
                 </div>
 
                 <!--关于api-->
