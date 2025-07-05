@@ -257,6 +257,14 @@ const defaultWeChatAPIuserinfo = {
             "enable": true,
             "prompt_word": ["音乐", "yl"],
             "help": "使用‘/bot 音乐:歌曲名/作者’查看音乐列表",
+        },
+        {
+            "id": "xiaorenjupai",
+            "name": "小人举牌",
+            "grade": 2,
+            "enable": true,
+            "prompt_word": ["举牌", "jp"],
+            "help": "使用‘/bot 小人举牌’获取一张随机小人举牌图片",
         }
     ]
 }
@@ -320,6 +328,7 @@ const routes = {
         image360: handleGet360image,
         musicplay: handleMusicplay,
         musiclist: handleMusiclist,
+        xiaorenjupai: handleXiaorenjupai,
 
     },
     web: {
@@ -634,6 +643,30 @@ function handleGet360image() {
         return redirectToUrl(body);
     });
 }
+
+//小人举牌
+function handleXiaorenjupai() {
+    isEnable(action);
+    const songName = params[2];
+    const apiUrl = `https://shanhe.kim/api/qq/ju2.php?msg=${encodeURIComponent(songName)}`;
+
+    const options = {
+        url: apiUrl,
+        method: 'GET',
+        headers: {
+            'User-Agent': `Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.3 Mobile/15E148 Safari/604.1`,
+            'Accept': `text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8`,
+        }
+    }
+    fetchWithCallback(options, (error, response, body) => {
+        if (error) {
+            console.log('Error:', error);
+            return $done(responseStatusWeChatAPP("获取图片失败，请稍后重试"));
+        }
+        return redirectToUrl(apiUrl);
+    });
+}
+
 
 
 
@@ -1201,6 +1234,7 @@ function handleMainPage() {
             'musicplay': ['popup-1'],
             'musiclist': ['popup-1'],
             'reset': ['popup-7'],
+            'xiaorenjupai': ['popup-1'],
         };
 
         //根据userInfoArray的id，获取对应的数据然后渲染弹出页面
@@ -1540,6 +1574,10 @@ document.getElementById('popup-overlay').style.display = 'none';
             <div class="api-grid">
                 <div id="image360" class="wechat-api">
                     <h2>360图壁纸</h2>
+                </div>
+
+                <div id="xiaorenjupai" class="wechat-api">
+                    <h2>小人举牌</h2>
                 </div>
             </div>
         </div>
