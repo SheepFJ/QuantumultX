@@ -264,7 +264,7 @@ const defaultWeChatAPIuserinfo = {
             "grade": 2,
             "enable": true,
             "prompt_word": ["举牌", "jp"],
-            "help": "使用‘/bot 小人举牌’获取一张随机小人举牌图片",
+            "help": "使用‘/boi 举牌’获取一张随机小人举牌图片",
         }
     ]
 }
