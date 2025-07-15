@@ -1191,7 +1191,7 @@ function handleMainPage() {
 
     <script>
         let userInfoArray = [];
-        fetch('https://api.sheep.com/sheep/wechat/api/?web=GetUserinfo')
+        fetch('https:///www.360.cn/sheep/wechat/api/?web=GetUserinfo')
                 .then(response => response.json())
                 .then(data => {
                    userInfoArray = data.data.array;    
@@ -1204,12 +1204,12 @@ function handleMainPage() {
 
 
         document.getElementById('reset-all-data').addEventListener('click', function () {
-                        fetch('https://api.sheep.com/sheep/wechat/api/?web=reset')
+                        fetch('https://www.360.cn/sheep/wechat/api/?web=reset')
                             .then(response => response.json())
                             .then(data => {
                                 console.log("重置成功");
                                 //刷新页面
-                                window.location.href = 'https://api.sheep.com/sheep/wechat/api/?web=MainPage';
+                                window.location.href = 'https://www.360.cn/sheep/wechat/api/?web=MainPage';
                             })
                             .catch(error => {
                                 console.error('Error:', error);
@@ -1316,9 +1316,9 @@ function handleMainPage() {
     }
 
 
-    // 刷新-重新打开https://api.sheep.com/sheep/wechat/api/?web=MainPage
+    // 刷新-重新打开https://www.360.cn/sheep/wechat/api/?web=MainPage
     document.getElementById('refresh-help-content').addEventListener('click', function () {
-        window.location.href = 'https://api.sheep.com/sheep/wechat/api/?web=MainPage';
+        window.location.href = 'https://www.360.cn/sheep/wechat/api/?web=MainPage';
     });
 
 // 添加关键词
@@ -1458,7 +1458,7 @@ document.getElementById('add-keyword-btn').addEventListener('click', function ()
                     }
                 }
                 
-                fetch(\`https://api.sheep.com/sheep/wechat/api/?\${urlParams}\`)
+                fetch(\`https://www.360.cn/sheep/wechat/api/?\${urlParams}\`)
                 .then(response => response.json())
     .then(responseData => {
         console.log(responseData.data.information);
