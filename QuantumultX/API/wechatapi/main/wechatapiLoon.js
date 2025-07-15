@@ -9,7 +9,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ================ Loon==============
 
 [Script]
-http-response ^https:\/\/api\.sheep\.com\/sheep\/wechat\/api\/ script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/wechatapi/main/api.js,requires-body=false,tag=WeChatAPI
+http-response ^https?:\/\/www\.360\.cn\/sheep\/wechat\/api\/ script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/wechatapi/main/api.js,requires-body=false,tag=WeChatAPI
 [mitm]
 hostname = api.sheep.com
 
