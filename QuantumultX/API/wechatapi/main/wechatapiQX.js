@@ -9,7 +9,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/api\.sheep\.com\/sheep\/wechat\/api\/ url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/wechatapi/main/api.js
+^https?:\/\/www\.360\.cn\/sheep\/wechat\/api\/ url script-response-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/API/wechatapi/main/api.js
 [mitm]
 hostname = api.sheep.com
 
