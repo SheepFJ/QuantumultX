@@ -1473,10 +1473,10 @@ function handlePanFileId() {
 
     // 获取响应体内容
     let body = $response.body;
-    let obj;
+    let obj = {};
     try {
       obj = typeof body === "string" ? JSON.parse(body) : body;
-      console.log(obj);
+      notify("obj", "", obj);
     } catch (e) {
       notify("云盘响应解析失败", "", String(e));
       return $done({});
@@ -1485,24 +1485,13 @@ function handlePanFileId() {
     // 查找名为 StudyMusic 的文件夹
 
     let studyMusicItem = null;
+    // 兼容 Loon/QuanX 云盘返回格式
     if (obj && obj.data) {
-      if (Array.isArray(obj.data)) {
-        // QuanX 格式
-        studyMusicItem = obj.data.find(item => String(item.name) === "StudyMusic");
-        notify("DEBUG0-QuanX", "", "");
-      } else if (typeof obj.data === "object") {
-        // Loon 可能返回对象而不是数组
-        for (const key in obj.data) {
-          const item = obj.data[key];
-          if (item && String(item.name) === "StudyMusic") {
-            studyMusicItem = item;
-            notify("DEBUG0-Loon", "", "");
-            break;
-          }
-        }
-      }
+      // Loon 可能返回的 item.name 不是字符串类型，需做类型判断
+      studyMusicItem = obj.data.find(item => String(item.name) === "StudyMusic") || "1";
+      notify("DEBUG0", "", "");
     }
-    notify("DEBUG1", "", "");
+
 
     if (studyMusicItem) {
       let panFileUrl = storage.get("chaoxingpanfileurl") || {};
