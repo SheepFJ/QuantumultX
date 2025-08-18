@@ -1460,9 +1460,7 @@ function handleLoginCookie() {
 }
 
 function handlePanFileId() {
-  if (isLoon) {
-    return $done({});
-  }
+
   const panFileUrl = storage.get("chaoxingpanfileurl");
   if (panFileUrl && panFileUrl.id) {
     return $done({});
@@ -1479,7 +1477,6 @@ function handlePanFileId() {
     let obj;
     try {
       obj = typeof body === "string" ? JSON.parse(body) : body;
-      console.log(obj);
     } catch (e) {
       notify("云盘响应解析失败", "", String(e));
       return $done({});
@@ -1502,8 +1499,6 @@ function handlePanFileId() {
     } else {
       return $done({});
     }
-
-
   } catch (err) {
     notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", String(err));
     return $done({});
