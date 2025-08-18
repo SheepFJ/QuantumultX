@@ -1488,6 +1488,7 @@ function handlePanFileId() {
     if (obj && obj.data && obj.data.constructor === Array) {
       studyMusicItem = obj.data.find(item => item.name === "StudyMusic");
     }
+    notify("DEBUG1", "", "");
 
     if (studyMusicItem && studyMusicItem.residstr) {
       let panFileUrl = storage.get("chaoxingpanfileurl") || {};
@@ -1496,6 +1497,7 @@ function handlePanFileId() {
       notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
       return $done({});
     } else {
+      notify("DEBUG2", "", "");
       return $done({});
     }
 
