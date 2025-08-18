@@ -12,7 +12,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX/
 http-response ^https:\/\/pan-yz\.chaoxing\.com\/sheep\/music script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.0
 http-response ^https:\/\/message\.chaoxing\.com\/apis\/pmsg\/logoffUmeng script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.0
 http-response ^https:\/\/passport2-api\.chaoxing\.com\/v11\/loginregister script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.0
-http-response ^https:\/\/pan-yz\.chaoxing\.com\/api\/getMyDirAndFiles script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.0
+http-response ^https:\/\/pan-yz\.chaoxing\.com\/api\/getMyDirAndFiles script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/loonid.js,requires-body=false,tag=StudyMusic1.0
 http-request ^https:\/\/((pan-yz\.chaoxing\.com)|(s2\.cldisk\.com)|(d0\.cldisk\.com))\/ script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/userinfo.js,requires-body=false,tag=StudyMusic1.0
 [mitm]
 hostname = pan-yz.chaoxing.com,message.chaoxing.com,passport2-api.chaoxing.com,s2.cldisk.com,d0.cldisk.com
