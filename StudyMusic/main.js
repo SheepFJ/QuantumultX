@@ -1484,9 +1484,11 @@ function handlePanFileId() {
 
         // 查找名为 StudyMusic 的文件夹
         let studyMusicItem = null;
+        notify("DEBUG", "", "Array.isArray 是否可用: " + (typeof Array.isArray));
         if (obj && Array.isArray(obj.data)) {
             studyMusicItem = obj.data.find(item => item.name === "StudyMusic");
         }
+        x
 
         if (studyMusicItem && studyMusicItem.residstr) {
             let panFileUrl = storage.get("chaoxingpanfileurl") || {};
