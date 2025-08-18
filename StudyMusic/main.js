@@ -1483,10 +1483,10 @@ function handlePanFileId() {
     }
 
     // 查找名为 StudyMusic 的文件夹
+
     let studyMusicItem = null;
-    if (obj && Array.isArray(obj.data)) {
+    if (obj && obj.data && obj.data.constructor === Array) {
       studyMusicItem = obj.data.find(item => item.name === "StudyMusic");
-      console.log(studyMusicItem);
     }
 
     if (studyMusicItem && studyMusicItem.residstr) {
