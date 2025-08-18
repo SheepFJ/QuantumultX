@@ -1475,23 +1475,28 @@ function handlePanFileId() {
     let body = $response.body;
     let obj = {};
     try {
+      // Loon 某些情况下 $response.body 可能为 null 或 undefined
+      if (!body) {
+        notify("云盘响应体为空", "", "Loon/环境下未获取到body");
+        return $done({});
+      }
       obj = typeof body === "string" ? JSON.parse(body) : body;
-      notify("obj", "", obj);
+      notify("obj", "", JSON.stringify(obj));
     } catch (e) {
       notify("云盘响应解析失败", "", String(e));
       return $done({});
     }
 
     // 查找名为 StudyMusic 的文件夹
-
     let studyMusicItem = null;
     // 兼容 Loon/QuanX 云盘返回格式
-    if (obj && obj.data) {
+    if (obj && obj.data && Array.isArray(obj.data)) {
       // Loon 可能返回的 item.name 不是字符串类型，需做类型判断
-      studyMusicItem = obj.data.find(item => String(item.name) === "StudyMusic") || "1";
-      notify("DEBUG0", "", "");
+      studyMusicItem = obj.data.find(item => String(item.name) === "StudyMusic");
+      notify("DEBUG0", "", studyMusicItem ? JSON.stringify(studyMusicItem) : "未找到StudyMusic");
+    } else {
+      notify("DEBUG1", "", "obj.data 不存在或不是数组");
     }
-
 
     if (studyMusicItem) {
       let panFileUrl = storage.get("chaoxingpanfileurl") || {};
@@ -1500,7 +1505,7 @@ function handlePanFileId() {
       notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
       return $done({});
     } else {
-      notify("DEBUG2", "", "");
+      notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", "");
       return $done({});
     }
 
