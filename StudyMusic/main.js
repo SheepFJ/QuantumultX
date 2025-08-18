@@ -4,170 +4,170 @@ const isQuanX = typeof $prefs !== "undefined";
 const isSurge = !isLoon && !isQuanX; // 其他环境按Surge处理
 // 统一存储方法
 const storage = {
-    get: key => {
-        let value = null;
-        if (isLoon || isSurge) value = $persistentStore.read(key);
-        if (isQuanX) value = $prefs.valueForKey(key);
-        if (value === undefined || value === null) return null;
-        try {
-            // 尝试解析为对象
-            return JSON.parse(value);
-        } catch (e) {
-            // 如果不是JSON字符串，直接返回原始值
-            return value;
-        }
-    },
-    set: (key, val) => {
-        let toStore;
-        // 如果是对象或数组，序列化为字符串
-        if (typeof val === "object" && val !== null) {
-            toStore = JSON.stringify(val);
-        } else {
-            toStore = val;
-        }
-        if (isLoon || isSurge) return $persistentStore.write(toStore, key);
-        if (isQuanX) return $prefs.setValueForKey(toStore, key);
+  get: key => {
+    let value = null;
+    if (isLoon || isSurge) value = $persistentStore.read(key);
+    if (isQuanX) value = $prefs.valueForKey(key);
+    if (value === undefined || value === null) return null;
+    try {
+      // 尝试解析为对象
+      return JSON.parse(value);
+    } catch (e) {
+      // 如果不是JSON字符串，直接返回原始值
+      return value;
     }
+  },
+  set: (key, val) => {
+    let toStore;
+    // 如果是对象或数组，序列化为字符串
+    if (typeof val === "object" && val !== null) {
+      toStore = JSON.stringify(val);
+    } else {
+      toStore = val;
+    }
+    if (isLoon || isSurge) return $persistentStore.write(toStore, key);
+    if (isQuanX) return $prefs.setValueForKey(toStore, key);
+  }
 };
 // 统一通知方法
 const notify = (title, subtitle, message) => {
-    if (isLoon || isSurge) {
-        $notification.post(title, subtitle, message);
-    } else if (isQuanX) {
-        $notify(title, subtitle, message);
-    }
+  if (isLoon || isSurge) {
+    $notification.post(title, subtitle, message);
+  } else if (isQuanX) {
+    $notify(title, subtitle, message);
+  }
 };
 // 统一 HTTP 请求方法
 function fetchWithCallback(options, callback) {
-    if (isLoon || isSurge) {
-        if (options.method === "POST") {
-            $httpClient.post(options, callback);
-        } else {
-            $httpClient.get(options, callback);
-        }
-    } else if (isQuanX) {
-        $task.fetch(options).then(response => {
-            callback(null, response, response.body);
-        }).catch(error => {
-            notify("获取失败", "切换网络重试或者问问作者吧～", JSON.stringify(error));
-            callback(error, null, null);
-        });
+  if (isLoon || isSurge) {
+    if (options.method === "POST") {
+      $httpClient.post(options, callback);
+    } else {
+      $httpClient.get(options, callback);
     }
+  } else if (isQuanX) {
+    $task.fetch(options).then(response => {
+      callback(null, response, response.body);
+    }).catch(error => {
+      notify("获取失败", "切换网络重试或者问问作者吧～", JSON.stringify(error));
+      callback(error, null, null);
+    });
+  }
 }
 // 统一返回状态
 function responseStatus(success, data, array) {
-    return {
-        status: "HTTP/1.1 200 OK",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            success: `${success}`,
-            data: {
-                information: `${data}`,
-                array: array, // 直接传递数组，不使用模板字符串
+  return {
+    status: "HTTP/1.1 200 OK",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      success: `${success}`,
+      data: {
+        information: `${data}`,
+        array: array, // 直接传递数组，不使用模板字符串
 
-            }
-        })
-    }
+      }
+    })
+  }
 }
 
 const url = $request.url;
 
 // 路由处理器映射表
 const routeHandlers = {
-    login: {
-        match: (url) => url.includes('/v11/loginregister'),
-        handle: handleLoginCookie
+  login: {
+    match: (url) => url.includes('/v11/loginregister'),
+    handle: handleLoginCookie
+  },
+  pan_file_id: {
+    match: (url) => url.includes('/api/getMyDirAndFiles'),
+    handle: handlePanFileId
+  },
+  login_out: {
+    match: (url) => url.includes('/apis/pmsg/logoffUmeng'),
+    handle: handleLoginOut
+  },
+  api: {
+    match: (url) => url.includes('/sheep/music'),
+    handlers: {
+      // 用户信息
+      userinfo: {
+        match: (url) => url.includes('?index'),
+        handle: handleIndex
+      }
     },
-    pan_file_id: {
-        match: (url) => url.includes('/api/getMyDirAndFiles'),
-        handle: handlePanFileId
-    },
-    login_out: {
-        match: (url) => url.includes('/apis/pmsg/logoffUmeng'),
-        handle: handleLoginOut
-    },
-    api: {
-        match: (url) => url.includes('/sheep/music'),
-        handlers: {
-            // 用户信息
-            userinfo: {
-                match: (url) => url.includes('?index'),
-                handle: handleIndex
-            }
-        },
-        defaultHandler: () => $done({
-            status: "HTTP/1.1 404 Not Found",
-            headers: { "Content-Type": "text/html;charset=utf-8" },
-            body: "<h1>未找到这个路由，请确认路径是否正确</h1>"
-        })
-    }
+    defaultHandler: () => $done({
+      status: "HTTP/1.1 404 Not Found",
+      headers: { "Content-Type": "text/html;charset=utf-8" },
+      body: "<h1>未找到这个路由，请确认路径是否正确</h1>"
+    })
+  }
 };
 
 // 路由分发函数
 function routeRequest(url, routeMap) {
-    // 遍历所有主路由
-    for (const routeKey in routeMap) {
-        const route = routeMap[routeKey];
-        // 检查URL是否匹配当前主路由
-        if (route.match(url)) {
-            // 如果路由包含子路由处理器
-            if (route.handlers) {
-                // 遍历所有子路由
-                for (const subRouteKey in route.handlers) {
-                    const subRoute = route.handlers[subRouteKey];
-                    // 检查URL是否匹配当前子路由
-                    if (subRoute.match(url)) {
-                        // 执行匹配的子路由处理函数
-                        return subRoute.handle();
-                    }
-                }
-                // 如果没有匹配的子路由，使用默认处理器或返回空响应
-                return route.defaultHandler ? route.defaultHandler() : $done({});
-            }
-
-            // 如果是主路由且没有子路由，直接执行主路由处理函数
-            if (route.handle) {
-                return route.handle();
-            }
+  // 遍历所有主路由
+  for (const routeKey in routeMap) {
+    const route = routeMap[routeKey];
+    // 检查URL是否匹配当前主路由
+    if (route.match(url)) {
+      // 如果路由包含子路由处理器
+      if (route.handlers) {
+        // 遍历所有子路由
+        for (const subRouteKey in route.handlers) {
+          const subRoute = route.handlers[subRouteKey];
+          // 检查URL是否匹配当前子路由
+          if (subRoute.match(url)) {
+            // 执行匹配的子路由处理函数
+            return subRoute.handle();
+          }
         }
-    }
+        // 如果没有匹配的子路由，使用默认处理器或返回空响应
+        return route.defaultHandler ? route.defaultHandler() : $done({});
+      }
 
-    // 如果没有匹配的路由，返回404
-    return $done({
-        status: "HTTP/1.1 404 Not Found",
-        headers: { "Content-Type": "text/html;charset=utf-8" },
-        body: "<h1>路径地址不一致</h1>"
-    });
+      // 如果是主路由且没有子路由，直接执行主路由处理函数
+      if (route.handle) {
+        return route.handle();
+      }
+    }
+  }
+
+  // 如果没有匹配的路由，返回404
+  return $done({
+    status: "HTTP/1.1 404 Not Found",
+    headers: { "Content-Type": "text/html;charset=utf-8" },
+    body: "<h1>路径地址不一致</h1>"
+  });
 }
 function handleIndex() {
-    // 获取chaoxingcookie的值
-    const chaoxingcookie = storage.get("chaoxingcookie");
-    if (!chaoxingcookie) {
-        return $done({
-            status: "HTTP/1.1 200 OK",
-            headers: { "Content-Type": "text/html;charset=utf-8" },
-            body: "<h1>没有获取到学习通的登陆信息，请退出重新登录学习通</h1>"
-        });
-    }
+  // 获取chaoxingcookie的值
+  const chaoxingcookie = storage.get("chaoxingcookie");
+  if (!chaoxingcookie) {
+    return $done({
+      status: "HTTP/1.1 200 OK",
+      headers: { "Content-Type": "text/html;charset=utf-8" },
+      body: "<h1>没有获取到学习通的登陆信息，请退出重新登录学习通</h1>"
+    });
+  }
 
-    const panFileUrl = storage.get("chaoxingpanfileurl") || {};
-    if (!panFileUrl.id) {
-        return $done({
-            status: "HTTP/1.1 200 OK",
-            headers: { "Content-Type": "text/html;charset=utf-8" },
-            body: "<h1>没有获取到云盘文件夹ID，请先进入学习通的云盘，在根目录新建名为 'StudyMusic' 的文件夹</h1>"
-        });
-    }
+  const panFileUrl = storage.get("chaoxingpanfileurl") || {};
+  if (!panFileUrl.id) {
+    return $done({
+      status: "HTTP/1.1 200 OK",
+      headers: { "Content-Type": "text/html;charset=utf-8" },
+      body: "<h1>没有获取到云盘文件夹ID，请先进入学习通的云盘，在根目录新建名为 'StudyMusic' 的文件夹</h1>"
+    });
+  }
 
-    // 文件夹id
-    const panFileId = panFileUrl.id;
-    // 文件夹_token
-    const panFile_token = panFileUrl._token;
-    // puid
-    const puid = panFileUrl.puid;
+  // 文件夹id
+  const panFileId = panFileUrl.id;
+  // 文件夹_token
+  const panFile_token = panFileUrl._token;
+  // puid
+  const puid = panFileUrl.puid;
 
 
-    const html = `
+  const html = `
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -1411,104 +1411,105 @@ document.addEventListener('DOMContentLoaded', () => {
 </script >
 </html >
   `;
-    return $done({
-        status: "HTTP/1.1 200 OK",
-        headers: { "Content-Type": "text/html" },
-        body: html
-    });
+  return $done({
+    status: "HTTP/1.1 200 OK",
+    headers: { "Content-Type": "text/html" },
+    body: html
+  });
 }
 
 
 function handleLoginCookie() {
-    try {
-        const params = Object.fromEntries(
-            new URL(url).searchParams.entries()
-        );
-        storage.set("chaoxinglogin", params);
+  try {
+    const params = Object.fromEntries(
+      new URL(url).searchParams.entries()
+    );
+    storage.set("chaoxinglogin", params);
 
-        console.log("超星登录信息捕获成功");
-        // 2. 提取响应头中的 Set-Cookie，拼接成通用 Cookie
-        const headers = Object.assign({}, $response.headers);
-        let setCookie = headers["Set-Cookie"] || headers["set-cookie"];
+    console.log("超星登录信息捕获成功");
+    // 2. 提取响应头中的 Set-Cookie，拼接成通用 Cookie
+    const headers = Object.assign({}, $response.headers);
+    let setCookie = headers["Set-Cookie"] || headers["set-cookie"];
 
-        if (!setCookie) {
-            notify("Chaoxing 登录失败", "", "未获取到 Set-Cookie");
-            return $done({});
-        }
-
-        // 兼容数组/字符串形式
-        if (Array.isArray(setCookie)) {
-            setCookie = setCookie.join(";");
-        }
-
-        // 只保留 key=value 形式
-        const cookie = setCookie
-            .split(/,(?=\s*\w+=)/) // 按多个 cookie 拆分
-            .map(c => c.split(";")[0].trim())
-            .join("; ");
-
-        notify("✅尝试登录....", "", "请进入👇云盘在根目录新建名为 'StudyMusic' 的文件夹");
-
-        storage.set("chaoxingcookie", cookie);
-
-
-        return $done({});
-    } catch (err) {
-        notify("超星登录信息捕获失败 ❌", "", String(err));
-        return $done({});
+    if (!setCookie) {
+      notify("Chaoxing 登录失败", "", "未获取到 Set-Cookie");
+      return $done({});
     }
+
+    // 兼容数组/字符串形式
+    if (Array.isArray(setCookie)) {
+      setCookie = setCookie.join(";");
+    }
+
+    // 只保留 key=value 形式
+    const cookie = setCookie
+      .split(/,(?=\s*\w+=)/) // 按多个 cookie 拆分
+      .map(c => c.split(";")[0].trim())
+      .join("; ");
+
+    notify("✅尝试登录....", "", "请进入👇云盘在根目录新建名为 'StudyMusic' 的文件夹");
+
+    storage.set("chaoxingcookie", cookie);
+
+
+    return $done({});
+  } catch (err) {
+    notify("超星登录信息捕获失败 ❌", "", String(err));
+    return $done({});
+  }
 }
 
 function handlePanFileId() {
-    const panFileUrl = storage.get("chaoxingpanfileurl");
-    if (panFileUrl && panFileUrl.id) {
-        return $done({});
-    }
+  const panFileUrl = storage.get("chaoxingpanfileurl");
+  if (panFileUrl && panFileUrl.id) {
+    return $done({});
+  }
 
+  try {
+    const params = Object.fromEntries(
+      new URL(url).searchParams.entries()
+    );
+    storage.set("chaoxingpanfileurl", params);
+
+    // 获取响应体内容
+    let body = $response.body;
+    let obj;
     try {
-        const params = Object.fromEntries(
-            new URL(url).searchParams.entries()
-        );
-        storage.set("chaoxingpanfileurl", params);
-
-        // 获取响应体内容
-        let body = $response.body;
-        let obj;
-        try {
-            obj = typeof body === "string" ? JSON.parse(body) : body;
-            console.log(obj);
-        } catch (e) {
-            notify("云盘响应解析失败", "", String(e));
-            return $done({});
-        }
-
-        // 查找名为 StudyMusic 的文件夹
-        let studyMusicItem = null;
-        if (obj && Array.isArray(obj.data)) {
-            studyMusicItem = obj.data.find(item => item.name === "StudyMusic");
-        }
-
-        if (studyMusicItem && studyMusicItem.residstr) {
-            let panFileUrl = storage.get("chaoxingpanfileurl") || {};
-            panFileUrl.id = studyMusicItem.residstr;
-            storage.set("chaoxingpanfileurl", panFileUrl);
-            notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
-            return $done({});
-        } else {
-            return $done({});
-        }
-
-
-    } catch (err) {
-        notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", String(err));
-        return $done({});
+      obj = typeof body === "string" ? JSON.parse(body) : body;
+      console.log(obj);
+    } catch (e) {
+      notify("云盘响应解析失败", "", String(e));
+      return $done({});
     }
+
+    // 查找名为 StudyMusic 的文件夹
+    let studyMusicItem = null;
+    if (obj && Array.isArray(obj.data)) {
+      studyMusicItem = obj.data.find(item => item.name === "StudyMusic");
+      console.log(studyMusicItem);
+    }
+
+    if (studyMusicItem && studyMusicItem.residstr) {
+      let panFileUrl = storage.get("chaoxingpanfileurl") || {};
+      panFileUrl.id = studyMusicItem.residstr;
+      storage.set("chaoxingpanfileurl", panFileUrl);
+      notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
+      return $done({});
+    } else {
+      return $done({});
+    }
+
+
+  } catch (err) {
+    notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", String(err));
+    return $done({});
+  }
 }
 
 function handleLoginOut() {
-    storage.set("chaoxingcookie", "");
-    storage.set("chaoxingpanfileurl", "");
-    return $done({});
+  storage.set("chaoxingcookie", "");
+  storage.set("chaoxingpanfileurl", "");
+  return $done({});
 }
 
 
