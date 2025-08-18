@@ -1452,17 +1452,17 @@ function handleLoginCookie() {
         storage.set("chaoxingcookie", cookie);
 
 
-        return $done();
+        return $done({});
     } catch (err) {
         notify("超星登录信息捕获失败 ❌", "", String(err));
-        return $done();
+        return $done({});
     }
 }
 
 function handlePanFileId() {
     const panFileUrl = storage.get("chaoxingpanfileurl");
     if (panFileUrl && panFileUrl.id) {
-        return $done();
+        return $done({});
     }
 
     try {
@@ -1479,7 +1479,7 @@ function handlePanFileId() {
             console.log(obj);
         } catch (e) {
             notify("云盘响应解析失败", "", String(e));
-            return $done();
+            return $done({});
         }
 
         // 查找名为 StudyMusic 的文件夹
@@ -1493,22 +1493,22 @@ function handlePanFileId() {
             panFileUrl.id = studyMusicItem.residstr;
             storage.set("chaoxingpanfileurl", panFileUrl);
             notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
-            return $done();
+            return $done({});
         } else {
-            return $done();
+            return $done({});
         }
 
 
     } catch (err) {
         notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", String(err));
-        return $done();
+        return $done({});
     }
 }
 
 function handleLoginOut() {
     storage.set("chaoxingcookie", "");
     storage.set("chaoxingpanfileurl", "");
-    return $done();
+    return $done({});
 }
 
 
