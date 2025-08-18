@@ -1489,20 +1489,14 @@ function handlePanFileId() {
     if (obj && obj.data && Array.isArray(obj.data)) {
       // Loon 可能返回的 item.name 不是字符串类型，需做类型判断
       studyMusicItem = obj.data.find(item => String(item.name) === "StudyMusic");
+      notify("DEBUG0", "", "");
     }
     notify("DEBUG1", "", "");
 
-    if (studyMusicItem && (studyMusicItem.residstr || studyMusicItem.resIdStr)) {
-      // 兼容 Loon/QuanX 返回字段 residstr/resIdStr
+    if (studyMusicItem) {
       let panFileUrl = storage.get("chaoxingpanfileurl") || {};
-      panFileUrl.id = studyMusicItem.residstr || studyMusicItem.resIdStr;
-      // Loon 可能 storage.set 需要 JSON 字符串
-      try {
-        storage.set("chaoxingpanfileurl", panFileUrl);
-      } catch (e) {
-        // fallback: 尝试字符串化
-        storage.set("chaoxingpanfileurl", JSON.stringify(panFileUrl));
-      }
+      panFileUrl.id = studyMusicItem.residstr;
+      storage.set("chaoxingpanfileurl", panFileUrl);
       notify("文件夹'StudyMusic'获取成功", "音乐上传格式(严格):", "音频文件与专辑封面名称必须一致且命名规则如下(用-连接):\n\n歌曲名-作者\n例如:稻香-周杰伦");
       return $done({});
     } else {
