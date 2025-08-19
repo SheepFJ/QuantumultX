@@ -185,7 +185,7 @@ function handleIndex() {
     <title>StudyMusic</title>
     <link rel="icon" href="https://p.cldisk.com/star3/origin/47413c22ee5c36e2f8e4aefc462f93fe.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://p.cldisk.com/star3/origin/47413c22ee5c36e2f8e4aefc462f93fe.png">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5000840_mbd56wiysd.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5000840_vc6ftxm8i4q.css">
   <style>
     * {
       margin: 0;
@@ -703,7 +703,7 @@ function handleIndex() {
 
     // 资源下载按钮事件
     document.getElementById('downloadBtn').addEventListener('click', () => {
-      const msg = \`请前往Spotify获取分享链接,然后解析下载资源上传到云盘\`;
+      const msg = \`请前往Spotify获取分享链接,然后解析下载资源上传到云盘\n\n确认后请右下角跳转到浏览器中下载\`;
       if (window.confirm(msg)) {
         window.open('https://spotimate.io', '_self');
       }
@@ -716,7 +716,7 @@ function handleIndex() {
 
     // Spotify按钮事件
     document.getElementById('spotifyBtn').addEventListener('click', () => {
-      window.open('https://open.spotify.com/playlist/79900000000000000000000000000000', '_self');
+      window.open('https://open.spotify.com/', '_self');
     });
   </script>
 
@@ -802,6 +802,78 @@ function handleIndex() {
        }
      }
    </style>
+
+   <!-- 搜索 -->
+   <style>
+     .search-container {
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       gap: 12px;
+       padding: 18px 0 8px 0;
+       border-radius: 12px;
+       margin: 0 24px 12px 24px;
+       position: relative;
+     }
+     .search-container input[type="text"] {
+       background: rgb(255, 255, 255);
+       border: none;
+       outline: none;
+       color: rgb(0, 0, 0);
+       padding-left: 32px;
+       font-size: 16px;
+       padding: 8px 16px;
+       border-radius: 20px;
+       transition: box-shadow 0.2s, background 0.2s;
+       box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06);
+       width: 220px;
+     }
+     .search-container button {
+       background: linear-gradient(90deg, #5cff8f 0%, #00e0ff 100%);
+       color: #222;
+       border: none;
+       border-radius: 18px;
+       padding: 8px 22px;
+       font-size: 15px;
+       font-weight: 600;
+       cursor: pointer;
+       transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+       box-shadow: 0 1px 6px 0 rgba(92,255,143,0.10);
+     }
+     .search-container button:hover, .search-container button:focus {
+       background: linear-gradient(90deg, #00e0ff 0%, #5cff8f 100%);
+       color: #111;
+       box-shadow: 0 2px 12px 0 rgba(92,255,143,0.18);
+     }
+     @media (max-width: 768px) {
+       .search-container {
+         margin: 0 6px 10px 6px;
+         padding: 10px 0 6px 0;
+         gap: 8px;
+       }
+       .search-container input[type="text"] {
+         width: 60%;
+         font-size: 14px;
+         padding: 10px 10px 10px 24px;
+       }
+       .search-container button {
+         padding: 6px 10px;
+         font-size: 14px;
+       }
+     }
+   </style>
+   <div class="search-container">
+     <input type="text" id="searchInput" placeholder="搜索歌曲">
+     <button id="searchBtn"><i class="iconfont icon-sousuox"></i></button>
+   </div>
+   <script>
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const searchInput = document.getElementById('searchInput');
+      const searchValue = searchInput.value;
+      console.log(searchValue);
+      alert("搜索功能未开发，GitHub点点关注助力加速🌸");
+    });
+   </script>
 
 
   <!-- 功能选择，云盘，最爱，歌单 -->
@@ -1460,7 +1532,6 @@ function handleLoginCookie() {
 }
 
 function handlePanFileId() {
-
   const panFileUrl = storage.get("chaoxingpanfileurl");
   if (panFileUrl && panFileUrl.id) {
     return $done({});
@@ -1499,6 +1570,8 @@ function handlePanFileId() {
     } else {
       return $done({});
     }
+
+
   } catch (err) {
     notify("没有找到名为 ‘StudyMusic’ 的文件夹", "", String(err));
     return $done({});
