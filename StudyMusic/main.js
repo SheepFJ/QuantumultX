@@ -1181,10 +1181,10 @@ function handleIndex() {
       });
       // 处理所有mp3对象
       musiclist = dataArr
-        .filter(item => item.suffix && item.suffix.toLowerCase() === 'mp3')
+        .filter(item => item.suffix && ['mp3', 'm4a', 'wav','ogg','aac','flac','alac','ape','aiff','pcm'].includes(item.suffix.toLowerCase()))
         .map(item => {
-          // name去掉.mp3
-          let nameNoSuffix = item.name.replace(/\.mp3$/i, '');
+          // name去掉音频后缀（支持mp3、m4a、wav）
+          let nameNoSuffix = item.name.replace(/\.(mp3|m4a|wav|ogg|aac|flac|alac|ape|aiff|pcm)$/i, '');
           // 按-划分
           let musicname = nameNoSuffix;
           let artist = '';
