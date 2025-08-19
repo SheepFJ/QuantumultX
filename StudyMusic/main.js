@@ -936,7 +936,7 @@ function handleIndex() {
   let favoriteData = []; // 最爱数据
   let playlistData = []; // 歌单数据
 
-  const cookie = "${chaoxingcookie}";
+  const cookie = '${chaoxingcookie}';
   const panFileId = "${panFileId}";
   const panFile_token = "${panFile_token}";
   const puid = "${puid}";
