@@ -190,7 +190,7 @@ function handleIndex() {
     <title>StudyMusic</title>
     <link rel="icon" href="https://p.cldisk.com/star3/origin/47413c22ee5c36e2f8e4aefc462f93fe.png" type="image/x-icon">
     <link rel="apple-touch-icon" href="https://p.cldisk.com/star3/origin/47413c22ee5c36e2f8e4aefc462f93fe.png">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5000840_vc6ftxm8i4q.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_5000840_sx4mo2uvy2.css">
   <style>
     * {
       margin: 0;
@@ -941,7 +941,7 @@ function handleIndex() {
        overflow: hidden;
        text-overflow: ellipsis;
      }
-     .search-download-btn {
+     .search-download-btn, .search-play-btn {
        background: linear-gradient(90deg, #5cff8f 0%, #00e0ff 100%);
        color: #222;
        border: none;
@@ -953,7 +953,7 @@ function handleIndex() {
        margin-left: 16px;
        transition: background 0.2s, color 0.2s;
      }
-     .search-download-btn:active {
+     .search-download-btn:active, .search-play-btn:active {
        background: linear-gradient(90deg, #00e0ff 0%, #5cff8f 100%);
      }
      .search-modal-loading {
@@ -1048,6 +1048,7 @@ function showSearchModal(results, searchKeyword, nMap) {
                       <div class="search-result-singer">\${item.singer}</div>
                     </div>
                     <button class="search-download-btn" data-n="\${item.n}" data-title="\${encodeURIComponent(item.title)}" data-singer="\${encodeURIComponent(item.singer)}">下载</button>
+                    <button class="search-play-btn" data-n="\${item.n}" data-title="\${encodeURIComponent(item.title)}" data-singer="\${encodeURIComponent(item.singer)}">播放</button>
                   </li>
                 \`).join("")
     }
@@ -1059,19 +1060,65 @@ function showSearchModal(results, searchKeyword, nMap) {
   // 关闭按钮
   document.getElementById("searchModalCloseBtn").onclick = () => {
     overlay.remove();
+    
   };
-
-  // 下载按钮事件
-  overlay.querySelectorAll(".search-download-btn").forEach(btn => {
+  // 播放按钮事件
+  overlay.querySelectorAll(".search-play-btn").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const n = btn.getAttribute("data-n");
       const title = decodeURIComponent(btn.getAttribute("data-title"));
       const singer = decodeURIComponent(btn.getAttribute("data-singer"));
+
       btn.disabled = true;
-      btn.textContent = "下载中...";
+      btn.textContent = "加载中...";
+
       try {
-        // 获取下载链接
+        // 获取播放链接
         const resp = await fetch(\`https://www.hhlqilongzhu.cn/api/joox/juhe_music.php?msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
+      const body = await resp.json();
+
+  if (!body || !body.data || !body.data.url || !body.data.cover) {
+    throw new Error("未获取到音频或封面");
+  }
+
+  // 创建新的音乐列表，只包含当前搜索到的歌曲
+  const newMusicList = [{
+    musicname: body.data.title || title,
+    artist: body.data.singer || singer,
+    url: body.data.url,
+    cover: "https://p.cldisk.com/star3/origin/47413c22ee5c36e2f8e4aefc462f93fe.png"
+  }];
+
+  // 如果全局播放器存在，使用新的音乐列表进行播放，避免musiclist序号错乱
+  if (globalMusicPlayer) {
+    globalMusicPlayer.playSong(0, newMusicList);
+    // 关闭搜索弹窗
+    overlay.remove();
+  } else {
+    alert("播放器未初始化");
+  }
+
+} catch (err) {
+  console.error("播放失败", err);
+  alert("播放失败: " + err.message);
+} finally {
+  btn.disabled = false;
+  btn.textContent = "播放";
+}
+    });
+  });
+
+// 下载按钮事件
+overlay.querySelectorAll(".search-download-btn").forEach(btn => {
+  btn.addEventListener("click", async (e) => {
+    const n = btn.getAttribute("data-n");
+    const title = decodeURIComponent(btn.getAttribute("data-title"));
+    const singer = decodeURIComponent(btn.getAttribute("data-singer"));
+    btn.disabled = true;
+    btn.textContent = "下载中...";
+    try {
+      // 获取下载链接
+      const resp = await fetch(\`https://www.hhlqilongzhu.cn/api/joox/juhe_music.php?msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
   const body = await resp.json();
   if (!body || !body.data || !body.data.url || !body.data.cover) {
     throw new Error("未获取到音频或封面");
@@ -1754,7 +1801,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 
 // 初始化播放器
 document.addEventListener('DOMContentLoaded', () => {
-        new MusicPlayer();
+        globalMusicPlayer = new MusicPlayer();
 });
   </script >
 </html >
@@ -1775,23 +1822,41 @@ function handleLoginCookie() {
     storage.set("chaoxinglogin", params);
 
     console.log("超星登录信息捕获成功");
-    // 2. 提取响应头中的 Set-Cookie，拼接成通用 Cookie
-    const headers = Object.assign({}, $response.headers);
-    let setCookie = headers["Set-Cookie"] || headers["set-cookie"];
 
-    if (!setCookie) {
+    // 2. 提取响应头中的 Set-Cookie，拼接成通用 Cookie
+    // Surge 只会保留最后一个 Set-Cookie，原因是 $response.headers["Set-Cookie"] 只返回最后一个
+    // 解决方法：优先用 $response.headers["Set-Cookie"]，如果是字符串则尝试用 $response.headers["Set-Cookie"] 和 $response.headers["set-cookie"] 都合并
+    // 兼容 Surge/Loon/QuanX
+    let setCookieArr = [];
+    if (Array.isArray($response.headers["Set-Cookie"])) {
+      setCookieArr = $response.headers["Set-Cookie"];
+    } else if (Array.isArray($response.headers["set-cookie"])) {
+      setCookieArr = $response.headers["set-cookie"];
+    } else if (typeof $response.headers["Set-Cookie"] === "string" && typeof $response.headers["set-cookie"] === "string") {
+      // 两个都为字符串，合并
+      setCookieArr = [$response.headers["Set-Cookie"], $response.headers["set-cookie"]];
+    } else if (typeof $response.headers["Set-Cookie"] === "string") {
+      setCookieArr = [$response.headers["Set-Cookie"]];
+    } else if (typeof $response.headers["set-cookie"] === "string") {
+      setCookieArr = [$response.headers["set-cookie"]];
+    }
+
+    // 兼容 Surge 只返回最后一个 Set-Cookie 的情况，尝试用 $response.headersRaw
+    if (setCookieArr.length <= 1 && typeof $response.headersRaw === "string") {
+      // 从原始头部中提取所有 Set-Cookie
+      const matches = $response.headersRaw.match(/^Set-Cookie:\s*([^\r\n]+)$/gim);
+      if (matches) {
+        setCookieArr = matches.map(line => line.replace(/^Set-Cookie:\s*/i, ""));
+      }
+    }
+
+    if (!setCookieArr || setCookieArr.length === 0) {
       notify("Chaoxing 登录失败", "", "未获取到 Set-Cookie");
       return $done({});
     }
 
-    // 兼容数组/字符串形式
-    if (Array.isArray(setCookie)) {
-      setCookie = setCookie.join(";");
-    }
-
     // 只保留 key=value 形式
-    const cookie = setCookie
-      .split(/,(?=\s*\w+=)/) // 按多个 cookie 拆分
+    const cookie = setCookieArr
       .map(c => c.split(";")[0].trim())
       .join("; ");
 
