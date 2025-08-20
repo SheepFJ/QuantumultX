@@ -30,10 +30,7 @@ const storage = {
     }
 };
 
-
-let chaoxingcookie =
-    storage.get("chaoxingcookie");
-
+let chaoxingcookie = storage.get("chaoxingcookie");
 if (!chaoxingcookie) {
     chaoxingcookie = "";
 }
@@ -45,19 +42,22 @@ if (!chaoxingcookie) {
         return;
     }
 
-    // 克隆 headers，避免直接改 $request.headers
+    const url = $request.url || "";
     const headers = Object.assign({}, $request.headers);
 
-    // 设置 Referer
-    headers['Referer'] = "https://pan-yz.chaoxing.com/mobile/fileList"
+    if (url.includes("douyinvod") && url.includes("longzhu_api")) {
+        // 只设置 Referer 为 url
+        headers['Referer'] = url;
+        $done({ headers });
+        return;
+    }
 
+    // 设置 Referer
+    headers['Referer'] = "https://pan-yz.chaoxing.com/mobile/fileList";
     // 设置 UA
     headers['user-agent'] = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 (schild:a15e7e463b68b1f4ea43e7c67bf066ac) (device:iPhone14,2) Language/zh-Hans com.ssreader.ChaoXingStudy/ChaoXingStudy_3_6.3.2_ios_phone_202409020930_249 (@Kalimdor)_1580206625949903736';
-
-
     // 设置 Cookie
     headers['Cookie'] = chaoxingcookie;
 
-    $done({ headers: headers });
+    $done({ headers });
 })();
-
