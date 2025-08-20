@@ -12,9 +12,10 @@ GitHub：https://github.com/SheepFJ/QuantumultX/
 http-response ^https:\/\/pan-yz\.chaoxing\.com\/sheep\/music script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.3
 http-response ^https:\/\/message\.chaoxing\.com\/apis\/pmsg\/logoffUmeng script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.3
 http-response ^https:\/\/passport2-api\.chaoxing\.com\/v11\/loginregister script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.3
-http-response ^https:\/\/pan-yz\.chaoxing\.com\/api\/getMyDirAndFiles script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=false,tag=StudyMusic1.3
-http-request ^https:\/\/((pan-yz\.chaoxing\.com)|(s2\.cldisk\.com)|(d0\.cldisk\.com)｜(*\.douyinvod\.com))\/ script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/userinfo.js,requires-body=false,tag=StudyMusic1.3
+http-response ^https:\/\/pan-yz\.chaoxing\.com\/api\/getMyDirAndFiles script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/main.js,requires-body=true,tag=StudyMusic1.3
+http-request ^https:\/\/((pan-yz\.chaoxing\.com)|(s2\.cldisk\.com)|(d0\.cldisk\.com))\/ script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/userinfo.js,requires-body=false,tag=StudyMusic1.3
 http-response ^https?:\/\/.*(sycdn\.kuwo\.cn|music\.126\.net|migu\.cn|douyinvod\.com|kugou\.com)\/.* script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/music_dow.js,requires-body=false,tag=StudyMusic1.3
+http-request ^https?:\/\/.*\.douyinvod\.com\/.* script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/StudyMusic/userinfo.js,requires-body=false,tag=StudyMusic1.3
 [mitm]
 hostname = pan-yz.chaoxing.com,message.chaoxing.com,passport2-api.chaoxing.com,s2.cldisk.com,d0.cldisk.com,*.kuwo.cn,*.126.net,*.migu.cn,*.douyinvod.com,*.kugou.com
 
