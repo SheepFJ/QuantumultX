@@ -1822,69 +1822,30 @@ function handleLoginCookie() {
     storage.set("chaoxinglogin", params);
 
     console.log("超星登录信息捕获成功");
-
     // 2. 提取响应头中的 Set-Cookie，拼接成通用 Cookie
-    // 兼容 Surge/Loon/QuanX，确保完整获取所有 Set-Cookie
-    let setCookieArr = [];
+    const headers = Object.assign({}, $response.headers);
+    let setCookie = headers["Set-Cookie"] || headers["set-cookie"];
 
-    // 1. 优先从 headers 里获取所有 Set-Cookie
-    if (Array.isArray($response.headers["Set-Cookie"])) {
-      setCookieArr = $response.headers["Set-Cookie"];
-    } else if (Array.isArray($response.headers["set-cookie"])) {
-      setCookieArr = $response.headers["set-cookie"];
-    } else if (
-      typeof $response.headers["Set-Cookie"] === "string" &&
-      typeof $response.headers["set-cookie"] === "string"
-    ) {
-      setCookieArr = [
-        $response.headers["Set-Cookie"],
-        $response.headers["set-cookie"],
-      ];
-    } else if (typeof $response.headers["Set-Cookie"] === "string") {
-      setCookieArr = [$response.headers["Set-Cookie"]];
-    } else if (typeof $response.headers["set-cookie"] === "string") {
-      setCookieArr = [$response.headers["set-cookie"]];
-    }
-
-    // 2. 如果还不全，尝试从 headersRaw 里提取所有 Set-Cookie
-    if (
-      (!setCookieArr || setCookieArr.length < 2) &&
-      typeof $response.headersRaw === "string"
-    ) {
-      // 匹配所有 Set-Cookie 行
-      const matches = $response.headersRaw.match(/^Set-Cookie:\s*([^\r\n]+)$/gim);
-      if (matches) {
-        setCookieArr = matches.map(line =>
-          line.replace(/^Set-Cookie:\s*/i, "")
-        );
-      }
-    }
-
-    if (!setCookieArr || setCookieArr.length === 0) {
+    if (!setCookie) {
       notify("Chaoxing 登录失败", "", "未获取到 Set-Cookie");
       return $done({});
     }
 
-    // 3. 只保留 key=value 形式，拼接成通用 Cookie 字符串
-    // 过滤掉重复的 key，后出现的覆盖前面的（与浏览器行为一致）
-    const cookieObj = {};
-    setCookieArr.forEach(c => {
-      const kv = c.split(";")[0].trim();
-      const eqIdx = kv.indexOf("=");
-      if (eqIdx > 0) {
-        const k = kv.slice(0, eqIdx).trim();
-        const v = kv.slice(eqIdx + 1).trim();
-        cookieObj[k] = v;
-      }
-    });
-    // 保持原顺序
-    const cookie = Object.entries(cookieObj)
-      .map(([k, v]) => `${k}=${v}`)
+    // 兼容数组/字符串形式
+    if (Array.isArray(setCookie)) {
+      setCookie = setCookie.join(";");
+    }
+
+    // 只保留 key=value 形式
+    const cookie = setCookie
+      .split(/,(?=\s*\w+=)/) // 按多个 cookie 拆分
+      .map(c => c.split(";")[0].trim())
       .join("; ");
 
     notify("✅尝试登录....", "", "请进入👇云盘在根目录新建名为 'StudyMusic' 的文件夹");
 
     storage.set("chaoxingcookie", cookie);
+
 
     return $done({});
   } catch (err) {
