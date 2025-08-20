@@ -45,7 +45,10 @@ if (!chaoxingcookie) {
     const url = $request.url || "";
     const headers = Object.assign({}, $request.headers);
 
-    if (url.includes("douyinvod") && url.includes("longzhu_api")) {
+    if (
+        (url.includes("douyinvod") || url.includes("migu")) &&
+        url.includes("longzhu_api")
+    ) {
         // 只设置 Referer 为 url
         headers['Referer'] = url;
         $done({ headers });
@@ -61,3 +64,4 @@ if (!chaoxingcookie) {
 
     $done({ headers });
 })();
+
