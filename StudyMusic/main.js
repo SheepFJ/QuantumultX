@@ -1935,37 +1935,128 @@ function handleMusic() {
     });
   }
 
-  // 下载图片内容并上传
-  fetch(imgUrl)
-    .then(res => res.blob())
-    .then(blob => {
-      const file = new File([blob], filename, { type: blob.type || "image/jpeg" });
+
+
+  // 通用上传函数
+  function uploadToPan(fileData, mimeType) {
+    const uploadUrl = "https://pan-yz.chaoxing.com/upload/uploadfile?uploadtype=normal&prdid=-1&_token=" + panFile_token + "&puid=" + puid + "&fldid=" + panFileId;
+
+    if (isLoon) {
+      // Loon: 需要用 $httpClient 方式上传 multipart/form-data
+      const boundary = "----WebKitFormBoundary" + Math.random().toString(16).slice(2);
+      const CRLF = "\r\n";
+      let multipartBody = "";
+      multipartBody += `--${boundary}${CRLF}`;
+      multipartBody += `Content-Disposition: form-data; name="file"; filename="${filename}"${CRLF}`;
+      multipartBody += `Content-Type: ${mimeType || "image/jpeg"}${CRLF}${CRLF}`;
+
+      // Loon $httpClient 只支持 ArrayBuffer/Uint8Array 作为 body
+      // 所以我们需要将头部和尾部转为 Uint8Array，再拼接
+      function str2Uint8(str) {
+        const arr = [];
+        for (let i = 0; i < str.length; i++) arr.push(str.charCodeAt(i));
+        return new Uint8Array(arr);
+      }
+      const head = str2Uint8(multipartBody);
+      const tail = str2Uint8(`${CRLF}--${boundary}--${CRLF}`);
+
+      // 拼接完整body
+      let totalLen = head.length + fileData.byteLength + tail.length;
+      let body = new Uint8Array(totalLen);
+      body.set(head, 0);
+      body.set(new Uint8Array(fileData), head.length);
+      body.set(tail, head.length + fileData.byteLength);
+
+      $httpClient.post({
+        url: uploadUrl,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${boundary}`
+        },
+        body: body.buffer
+      }, (err, resp, data) => {
+        if (err) {
+          notify("图片上传失败", "", String(err));
+          return $done({
+            status: "HTTP/1.1 500 Internal Server Error",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: false, message: String(err) })
+          });
+        }
+        try {
+          const result = typeof data === "string" ? JSON.parse(data) : data;
+          $done({
+            status: "HTTP/1.1 200 OK",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: true, result })
+          });
+        } catch (e) {
+          notify("图片上传失败", "", String(e));
+          $done({
+            status: "HTTP/1.1 500 Internal Server Error",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: false, message: String(e) })
+          });
+        }
+      });
+    } else {
+      // QuanX/Safari/Node: 直接用 fetch + FormData
+      const file = new File([fileData], filename, { type: mimeType || "image/jpeg" });
       const formData = new FormData();
       formData.append("file", file, filename);
 
-      const uploadUrl = "https://pan-yz.chaoxing.com/upload/uploadfile?uploadtype=normal&prdid=-1&_token=" + panFile_token + "&puid=" + puid + "&fldid=" + panFileId;
-
-      return fetch(uploadUrl, {
+      fetch(uploadUrl, {
         method: "POST",
         body: formData
-      });
-    })
-    .then(res => res.json())
-    .then(result => {
-      $done({
-        status: "HTTP/1.1 200 OK",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ success: true, result })
-      });
-    })
-    .catch(err => {
-      notify("图片上传失败", "", String(err));
-      $done({
-        status: "HTTP/1.1 500 Internal Server Error",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ success: false, message: String(err) })
-      });
+      })
+        .then(res => res.json())
+        .then(result => {
+          $done({
+            status: "HTTP/1.1 200 OK",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: true, result })
+          });
+        })
+        .catch(err => {
+          notify("图片上传失败", "", String(err));
+          $done({
+            status: "HTTP/1.1 500 Internal Server Error",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ success: false, message: String(err) })
+          });
+        });
+    }
+  }
+
+  // 下载图片内容
+  if (isLoon) {
+    // Loon: 用 $httpClient.get 获取 ArrayBuffer
+    $httpClient.get({ url: imgUrl, responseType: "arraybuffer" }, (err, resp, data) => {
+      if (err) {
+        notify("图片下载失败", "", String(err));
+        return $done({
+          status: "HTTP/1.1 500 Internal Server Error",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ success: false, message: String(err) })
+        });
+      }
+      // resp.headers["Content-Type"] 可能有图片类型
+      const mimeType = resp.headers && (resp.headers["Content-Type"] || resp.headers["content-type"]) || "image/jpeg";
+      uploadToPan(data, mimeType);
     });
+  } else {
+    // QuanX/Safari/Node: fetch
+    fetch(imgUrl)
+      .then(res => res.blob())
+      .then(blob => blob.arrayBuffer().then(buf => uploadToPan(buf, blob.type)))
+      .catch(err => {
+        notify("图片下载失败", "", String(err));
+        $done({
+          status: "HTTP/1.1 500 Internal Server Error",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ success: false, message: String(err) })
+        });
+      });
+  }
 }
 
 // 启动路由分发
