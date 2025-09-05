@@ -7,11 +7,13 @@
 
 **********************************
 
-[rewrite_local]
-^https?:\/\/api\.swiftgram\.app\/(v\d\/user\/info|restoreAccess) url script-response-body https://raw.githubusercontent.com/xxx/Rewrite/main/swiftgram.js
-
 [mitm]
 hostname = api.swiftgram.app
+
+================ Loon ==================
+
+[Script]
+http-response ^https?:\/\/api\.swiftgram\.app\/(v\d\/user\/info|restoreAccess) script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/swiftgram/swiftgram.js,requires-body=false,tag=swiftgram
 
 *************************************/
 
