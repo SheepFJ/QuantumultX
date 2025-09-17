@@ -1074,7 +1074,7 @@ function showSearchModal(results, searchKeyword, nMap) {
 
       try {
         // 获取播放链接
-        const resp = await fetch(\`https://www.hhlqilongzhu.cn/api/joox/juhe_music.php?msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
+        const resp = await fetch(\`https://sdkapi.hhlqilongzhu.cn/api/juhe_dgmusic/?key=DragonD9BB927C25A17EC78EA16361FD24230D&msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
       const body = await resp.json();
 
   if (!body || !body.data || !body.data.url || !body.data.cover) {
@@ -1118,7 +1118,7 @@ overlay.querySelectorAll(".search-download-btn").forEach(btn => {
     btn.textContent = "下载中...";
     try {
       // 获取下载链接
-      const resp = await fetch(\`https://www.hhlqilongzhu.cn/api/joox/juhe_music.php?msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
+      const resp = await fetch(\`https://sdkapi.hhlqilongzhu.cn/api/juhe_dgmusic/?key=DragonD9BB927C25A17EC78EA16361FD24230D&msg=\${encodeURIComponent(searchKeyword)}&type=json&n=\${n}\`);
   const body = await resp.json();
   if (!body || !body.data || !body.data.url || !body.data.cover) {
     throw new Error("未获取到音频或封面");
@@ -1174,7 +1174,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
   };
 
   try {
-    const resp = await fetch(\`https://www.hhlqilongzhu.cn/api/joox/juhe_music.php?msg=\${encodeURIComponent(searchValue)}&type=json&n=\`);
+    const resp = await fetch(\`https://sdkapi.hhlqilongzhu.cn/api/juhe_dgmusic/?key=DragonD9BB927C25A17EC78EA16361FD24230D&msg=\${encodeURIComponent(searchValue)}&type=json&n=\`);
     const data = await resp.json();
     if (!Array.isArray(data)) {
       throw new Error("接口返回异常");
