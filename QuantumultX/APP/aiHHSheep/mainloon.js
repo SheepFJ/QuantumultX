@@ -11,7 +11,7 @@ GitHub：https://github.com/SheepFJ/QuantumultX/
 ============ Quantumult X ============
 
 [Script]
-http-request ^https://api\.pistachio\.net\.cn/api/mj/plazaList script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/aiHHSheep/maindata.js,requires-body=true,tag=ai绘画
+http-request ^https:\/\/api\.pistachio\.net\.cn\/\/api\/mj\/v2\/imagine script-path=https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/aiHHSheep/maindata.js,requires-body=true,tag=ai绘画
 [mitm]
 hostname = api.pistachio.net.cn
 
