@@ -11,7 +11,8 @@ GitHub：https://github.com/SheepFJ/QuantumultX/
 ============ Quantumult X ============
 
 [rewrite_local]
-^https:\/\/api\.pistachio\.net\.cn\/\/api\/mj\/v2\/imagine url script-request-body https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/aiHHSheep/maindata.js
+^https:\/\/api\.pistachio\.net\.cn\/\/api\/mj\/v2\/imagine url script-request-header https://raw.githubusercontent.com/SheepFJ/QuantumultX/refs/heads/main/QuantumultX/APP/aiHHSheep/maindata.js
+
 [mitm]
 hostname = api.pistachio.net.cn
 
