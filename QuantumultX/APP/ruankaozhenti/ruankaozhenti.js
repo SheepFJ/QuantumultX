@@ -15,5 +15,21 @@ GitHub：https://github.com/SheepFJ/QuantumultX
 hostname = app.lightsoft.tech
 *************************************/
 
+let body = JSON.parse($response.body);
+function modifyObject(obj) {
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            if (typeof obj[key] === 'object' && obj[key] !== null) {
+                modifyObject(obj[key]);
+            } else {
+                if (key === 'effectiveDate') {
+                    obj[key] = "2055-10-17T11:16:14.132659";
+                }
+            }
+        }
+    }
+    
+}
+modifyObject(body);
 
-eval(function (p, a, c, k, e, d) { e = function (c) { return (c < a ? "" : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36)) }; if (!''.replace(/^/, String)) { while (c--) d[e(c)] = k[c] || e(c); k = [function (e) { return d[e] }]; e = function () { return '\\w+' }; c = 1; }; while (c--) if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]); return p; }('5 2=6.n(8.2);b 3(1){c(5 0 f 1){4(1.e(0)){4(7 1[0]===\'a\'&&1[0]!==9){3(1[0])}g{4(0===\'m\'){1[0]="o-l-i:h:k.j"}}}}}3(2);d({2:6.p(2)});', 26, 26, 'key|obj|body|modifyObject|if|let|JSON|typeof|r|null|object|function|for||hasOwnProperty|in|else|16|17T11|132659|14|10|effectiveDate|parse|2055|stringify'.split('|'), 0, {}))
+$done({ body: JSON.stringify(body) });
